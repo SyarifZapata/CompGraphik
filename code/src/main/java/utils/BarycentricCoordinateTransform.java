@@ -23,7 +23,7 @@ public class BarycentricCoordinateTransform {
 		assert(!isDegenerate());
 		
 		//TODO: Blatt 1, Aufgabe 5
-		lambdaX = (((b.y-c.y)*(x-c.x))+((c.x-b.x)*(y-c.y)))/(((b.y-c.y)*(a.x-c.x))+((c.x-b.x)*(a.y-c.y)));
+		lambdaX = (((b.y-c.y)*(x-c.x))+((c.x-b.x)*(y-c.y)))/(((b.y-c.y)*(a.x-c.x))+((c.x-b.x)*(a.y-c.y)));		//Formel aus dem Skript Folienblock 2, S.23
 		lambdaY = (((c.y-a.y)*(x-c.x))+((a.x-c.x)*(y-c.y)))/(((b.y-c.y)*(a.x-c.x))+((c.x-b.x)*(a.y-c.y)));
 		lambdaZ = 1 - (lambdaX + lambdaY);
 		return new BarycentricCoordinates(lambdaX,lambdaY,lambdaZ);
