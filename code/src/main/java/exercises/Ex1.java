@@ -33,7 +33,7 @@ public class Ex1{
 		generatePlasteredImage();
 
 		//Blatt 1, Aufgabe 7 Beispiele
-		//drawInterpolatedTriangles();
+		drawInterpolatedTriangles();
 	}
 	
 	private void createAndSaveImage(){
@@ -78,7 +78,8 @@ public class Ex1{
 	private void lineRasterExample(){
 		int width = 500;
 		int height = 480;
-		SimpleRenderer simpleRenderer = new SimpleRenderer(width, height, new ConstantColorShader());
+		//SimpleRenderer simpleRenderer = new SimpleRenderer(width, height, new ConstantColorShader());
+		SimpleRenderer simpleRenderer = new SimpleRenderer(width, height, new InterpolatedColorShader());
 
 		//Vector2[] vectors = {new Vector2(0,40),new Vector2(70,0)};
 		//Vector2[] vectors = {new Vector2(0,0),new Vector2(70,40)};
@@ -87,10 +88,11 @@ public class Ex1{
 		//Vector2[] vectors = {new Vector2(0,0),new Vector2(40,200)};
 		//Vector2[] vectors = {new Vector2(70,150),new Vector2(70,10)};
 		Vector2[] vectors = {new Vector2(100,230),new Vector2(490,500)};
-
+		RGBA[] rgbas = {new RGBA(0.9,0.7,0.1),new RGBA(0.9,0.9,0.9)};
 
 		//TODO: Blatt 1, Aufgabe 4
-		simpleRenderer.drawPlainLine(vectors,new RGBA(0.3,0.5,0.7));
+		//simpleRenderer.drawPlainLine(vectors,new RGBA(0.3,0.5,0.7));
+		simpleRenderer.drawLine(vectors,rgbas);
 
 
 		try {
@@ -151,6 +153,9 @@ public class Ex1{
 		SimpleRenderer renderer = new SimpleRenderer(500, 480, new InterpolatedColorShader());
 
 		//TODO: Blatt 1, Aufgabe 7
+		Vector2[] vectors = {new Vector2(100,230),new Vector2(490,500),new Vector2(300,300)};
+		RGBA[] rgbas = {new RGBA(0.9,0.7,0.3),new RGBA(0.9,0.8,0.9),new RGBA(0.6,0.5,0.9)};
+		renderer.drawTriangle(vectors,rgbas);
 		
 		try {
 			String imgName = "interpolated.png";

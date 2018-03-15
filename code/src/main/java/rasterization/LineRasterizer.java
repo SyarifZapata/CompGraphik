@@ -39,7 +39,7 @@ public class LineRasterizer {
 
 		if(dx < dy){
 			if(x<w && y<h){
-				handler.handleLinePixel(y,x,null,null);
+				handler.handleLinePixel(y,x,startPoint,endPoint);
 			}
 
 			double error = 2*dx -dy;
@@ -63,7 +63,7 @@ public class LineRasterizer {
 					error = error + dx;
 				}
 				if(x<w && y<h){
-					handler.handleLinePixel(x,y,null,null);
+					handler.handleLinePixel(y,x,startPoint,endPoint);;
 				}
 
 
@@ -77,14 +77,14 @@ public class LineRasterizer {
 					error = error + dx;
 				}
 				if(x<w && y<h){
-					handler.handleLinePixel(x,y,null,null);
+					handler.handleLinePixel(y,x,startPoint,endPoint);;
 				}
 
 			}
 		}
 
 		if(x<w && y<h){
-			handler.handleLinePixel(x,y,null,null);
+			handler.handleLinePixel(x,y,startPoint,endPoint);
 		}
 		double error = 2*dy -dx;
 
@@ -109,7 +109,7 @@ public class LineRasterizer {
 				error = error + dy;
 			}
 			if(x<w && y<h){
-				handler.handleLinePixel(x,y,null,null);
+				handler.handleLinePixel(x,y,startPoint,endPoint);
 			}
 
 
@@ -123,7 +123,7 @@ public class LineRasterizer {
 				error = error + dy;
 			}
 			if(x<w && y<h){
-				handler.handleLinePixel(x,y,null,null);
+				handler.handleLinePixel(x,y,startPoint,endPoint);
 			}
 
 		}
