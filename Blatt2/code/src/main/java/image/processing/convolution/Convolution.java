@@ -32,7 +32,7 @@ public abstract class Convolution implements ImageAlgorithm, Kernel {
 			}
 		}
 
-		printKernel();
+		//printKernel();
 		return outImg;
 	}
 	

@@ -17,6 +17,21 @@ public abstract class SeparableConvolution implements ImageAlgorithm, Kernel {
 		
 		//TODO: Blatt 2, Aufgabe 1 c)
 
+		int a = (int)Math.ceil(kernel.cols()/2.0);
+
+		for(int x = 0; x < img.cols(); x++){
+			for(int y = 0; y < img.rows(); y++){
+
+				RGBA value = new RGBA(0.0,0.0,0.0);
+
+				for(int j = 0; j < kernel.cols(); j++){
+					value = value.plus(img.get(x,y+j-a).times(kernel.get(j,0)));
+				}
+
+				outImg.set(x,y,value);
+			}
+		}
+		//printKernel();
 		return outImg;
 	}
 	

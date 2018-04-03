@@ -4,7 +4,8 @@ import image.Image;
 import image.ImageUtils;
 import image.RGBA;
 import image.processing.ImageAlgorithm;
-import image.processing.convolution.*;
+import image.processing.convolution.GaussConvolution;
+import image.processing.convolution.GaussSeparableConvolution;
 import image.processing.scaling.*;
 import image.processing.warping.BackwardWarp;
 import image.processing.warping.ForwardWarp;
@@ -40,11 +41,16 @@ public class Ex2 {
 	
 	public static void blatt2Aufgabe1(){
 		//applyKernel(new MeanConvolution(10), outPath + "meanfilter.png", false);
-		
+		long start = System.nanoTime();
 		applyKernel(new GaussConvolution(5, 2.0), "data/ex2/gaussfilter.png", false);
-//
-//		applyKernel(new GaussSeparableConvolution(5, 2.0), "data/ex2/gaussfiltered_separable.png", false);
-//
+		long elapsedTime = System.nanoTime()-start;
+		System.out.println("2D Gauss Performance: " + String.valueOf(elapsedTime/1000000000.0) + " seconds");
+
+		start = System.nanoTime();
+		applyKernel(new GaussSeparableConvolution(5, 2.0), "data/ex2/gaussfiltered_separable.png", false);
+		elapsedTime = System.nanoTime()-start;
+		System.out.println("1D Gauss Performance: " + String.valueOf(elapsedTime/1000000000.0) + " seconds");
+
 //		applyKernel(new LaplaceConvolution(), "data/ex2/laplacefilter.png", true);
 //
 //		applyKernel(new SobelHConvolution(), "data/ex2/sobelfilter.png", true);
