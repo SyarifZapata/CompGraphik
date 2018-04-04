@@ -15,6 +15,10 @@ public class BiLinearInterpolation implements Interpolation {
 	public RGBA access(double x, double y) {
 
 		//TODO: Blatt 2, Aufgabe 2
+		RGBA first = img.get(xx-1,yy);
+		RGBA second = img.get(xx+1,yy);
+		RGBA third = img.get(xx-1,yy+1);
+		RGBA fourth = img.get(xx+1,yy+1);
 
 		int ax0 = (int)x;
 		int ax1 = ax0 +1;
@@ -49,6 +53,7 @@ public class BiLinearInterpolation implements Interpolation {
 		RGBA res = new RGBA(0.0f, 0.0f, 0.0f);
 		
 		//TODO: Blatt 2, Aufgabe 2
+		res = c1.times(dx).plus(c0.times(1-dx));
 		
 		return res;
 	}
