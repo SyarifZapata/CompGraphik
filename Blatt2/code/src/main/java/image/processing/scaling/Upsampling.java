@@ -21,7 +21,7 @@ public class Upsampling implements ImageAlgorithm {
 		//TODO: Blatt 2, Aufgabe 2
 		for(int x=0; x<outImg.cols();x++){
 			for(int y=0; y<outImg.rows();y++){
-				RGBA interpolated = interpolation.access(x/2,y/2);
+				RGBA interpolated = interpolation.access(x/2.0,y/2.0);
 				outImg.set(x,y,interpolated);
 			}
 		}

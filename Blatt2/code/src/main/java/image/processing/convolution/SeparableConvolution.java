@@ -19,6 +19,8 @@ public abstract class SeparableConvolution implements ImageAlgorithm, Kernel {
 
 		int a = (int)(kernel.cols()/2.0);
 
+		Image<RGBA> zwischenRes =  new Image<RGBA>(img.cols(),img.rows(),new RGBA(0,0,0));
+
 		for(int x = 0; x < img.cols(); x++){
 			for(int y = 0; y < img.rows(); y++){
 
@@ -28,10 +30,23 @@ public abstract class SeparableConvolution implements ImageAlgorithm, Kernel {
 					value = value.plus(img.get(x,y+j-a).times(kernel.get(j,0)));
 				}
 
+				zwischenRes.set(x,y,value);
+			}
+		}
+
+		for(int x = 0; x < img.cols(); x++){
+			for(int y = 0; y < img.rows(); y++){
+
+				RGBA value = new RGBA(0.0,0.0,0.0);
+
+				for(int i = 0; i < kernel.cols(); i++){
+					value = value.plus(zwischenRes.get(x+i-a,y).times(kernel.get(i,0)));
+				}
+
 				outImg.set(x,y,value);
 			}
 		}
-		//printKernel();
+		printKernel();
 		return outImg;
 	}
 	
