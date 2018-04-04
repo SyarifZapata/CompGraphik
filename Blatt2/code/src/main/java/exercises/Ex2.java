@@ -63,6 +63,8 @@ public class Ex2 {
 		applyKernel(new Upsampling(new NNInterpolation()),  "data/ex2/nnUpsampling.png", false);
 		
 		applyKernel(new Upsampling(new BiLinearInterpolation()), "data/ex2/linearUpsampling.png", false);
+
+		applyKernel(new Upsampling(new BiCubicInterpolation()), "data/ex2/BiCubicUpsampling.png", false);
 	}
 	
 	public static void blatt2Aufgabe3(){
