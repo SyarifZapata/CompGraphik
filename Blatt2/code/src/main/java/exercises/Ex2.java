@@ -21,7 +21,7 @@ public class Ex2 {
 		prepareOutput(outPath);
 		
 		//Blatt 2 Aufgabe 1 Beispiele
-		//blatt2Aufgabe1();
+		blatt2Aufgabe1();
 		
 		//Blatt 2 Aufgabe 2 Beispiele
 		blatt2Aufgabe2();

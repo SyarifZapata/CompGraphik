@@ -22,7 +22,7 @@ public class GaussSeparableConvolution extends SeparableConvolution {
 			size += 1;
 		}
 
-		int a = (int)Math.ceil(size/2.0);
+		int a = (int)(size/2.0);
 
 		Image<Float> kernel = new Image<Float>(size, 1, 0.0f);
 

@@ -12,7 +12,7 @@ public abstract class Convolution implements ImageAlgorithm, Kernel {
 		Image<Float> kernel = getKernel();
 
 		//TODO: Blatt 2, Aufgabe 1 b)
-		int a = (int)Math.ceil(kernel.cols()/2.0);
+		int a = (int)(kernel.cols()/2.0);
 
 		for(int x = 0; x < img.cols(); x++){
 			for(int y = 0; y < img.rows(); y++){

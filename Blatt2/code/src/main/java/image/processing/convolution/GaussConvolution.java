@@ -24,7 +24,7 @@ public class GaussConvolution extends Convolution {
 		
 		Image<Float> kernelNew = new Image<Float>(size, size, 0.0f);
 
-		int a = (int)Math.ceil(size/2.0);
+		int a = (int)(size/2.0);
 		float result,sum;
 		double part1,part2,part3;
 		sum = 0;
