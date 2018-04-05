@@ -28,15 +28,11 @@ public class BiLinearInterpolation implements Interpolation {
 
 		double xDist = x%1;
 
-
-		//RGBA oben = new RGBA(rechtsOben.r*xDist + (1-xDist)*linksOben.r, rechtsOben.g*xDist + (1-xDist)*linksOben.g,rechtsOben.b*xDist + (1-xDist)*linksOben.b);
 		RGBA oben = linearlyInterpolate(linksOben,rechtsOben,xDist);
-		//RGBA unten = new RGBA(rechtsUnten.r*xDist + (1-xDist)*linksUnten.r,rechtsUnten.g*xDist + (1-xDist)*linksUnten.g,rechtsUnten.b*xDist + (1-xDist)*linksUnten.b);
 		RGBA unten = linearlyInterpolate(linksUnten,rechtsUnten,xDist);
 
 		double yDist = y%1;
 
-		//RGBA res = new RGBA(unten.r*yDist + (1-yDist)*oben.r, unten.g*yDist + (1-yDist)*oben.g,unten.b*yDist + (1-yDist)*oben.b);
 		RGBA res = linearlyInterpolate(oben,unten,yDist);
 
 
@@ -49,7 +45,7 @@ public class BiLinearInterpolation implements Interpolation {
 	 */
 	private RGBA linearlyInterpolate(RGBA c0, RGBA c1, double dx) {
 		
-		RGBA res = new RGBA(0.0f, 0.0f, 0.0f);
+		RGBA res;
 		
 		//TODO: Blatt 2, Aufgabe 2
 		res = c1.times(dx).plus(c0.times(1-dx));

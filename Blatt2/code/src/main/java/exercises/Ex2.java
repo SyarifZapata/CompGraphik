@@ -27,7 +27,7 @@ public class Ex2 {
 		blatt2Aufgabe2();
 		
 		//Blatt 3 Aufgabe 3 Beispiele
-		//blatt2Aufgabe3();
+		blatt2Aufgabe3();
 		
 	}
 	public static void prepareOutput(String outPath){
@@ -39,7 +39,7 @@ public class Ex2 {
 	}
 	
 	public static void blatt2Aufgabe1(){
-		applyKernel(new MeanConvolution(3), outPath + "meanfilter.png", false);
+		applyKernel(new MeanConvolution(5), outPath + "meanfilter.png", false);
 
 		long start = System.nanoTime();
 		applyKernel(new GaussConvolution(5, 2.0), "data/ex2/gaussfilter.png", false);
@@ -71,9 +71,9 @@ public class Ex2 {
 		
 		backwardWarp();
 		
-		forwardWarp();
+		//forwardWarp();
 		
-		morph();
+		//morph();
 	}
 
 	

@@ -25,8 +25,14 @@ public class BackwardWarp implements ImageAlgorithm {
 		Image<RGBA> outImg = new Image<RGBA>(img.cols(), img.rows());
 		Interpolation method = new BiLinearInterpolation();
 		method.setImage(img);
-		
+
 		//TODO: Blatt 2, Aufgabe 3
+		for (int x = 0; x < img.cols(); x++) {
+			for (int y = 0; y < img.rows(); y++) {
+				outImg.set(x, y, method.access(flowField.get(x, y).x + x, flowField.get(x, y).y + y));
+				System.out.println("Flowfield: " + flowField.get(x,y));
+			}
+		}
 		return outImg;
 	}
 	

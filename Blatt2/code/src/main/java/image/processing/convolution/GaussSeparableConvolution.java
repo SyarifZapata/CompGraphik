@@ -40,7 +40,7 @@ public class GaussSeparableConvolution extends SeparableConvolution {
 		}
 
 		for(int x = 0; x<size;x++){
-			kernel.set(x,kernel.get(x)/sum);
+			kernel.set(x,kernel.get(x)/sum);		//Normierung 
 		}
 
 
