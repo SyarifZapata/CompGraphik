@@ -20,7 +20,7 @@ public class BiCubicInterpolation implements Interpolation {
 
 		//TODO: Blatt 2, Aufgabe 2
 
-		float xx = 0.5f; float yy = 0.5f;
+		double xx = x%1; double yy = y%1;
 		int ax1,ax2,ax3,ax4,bx1,bx2,bx3,bx4,cx1,cx2,cx3,cx4,dx1,dx2,dx3,dx4;
 		int ay1,ay2,ay3,ay4,by1,by2,by3,by4,cy1,cy2,cy3,cy4,dy1,dy2,dy3,dy4;
 		ax1 = (int)x-1;	ay1 = (int)y-1;
@@ -61,11 +61,11 @@ public class BiCubicInterpolation implements Interpolation {
 		s3 = img.get(dx3,dy3);
 		s4 = img.get(dx4,dy4);
 
-		line1 = interpolateCubically(p1,p2,p3,p4,xx);
-		line2 = interpolateCubically(q1,q2,q3,q4,xx);
-		line3 = interpolateCubically(r1,r2,r3,r4,xx);
-		line4 = interpolateCubically(s1,s2,s3,s4,xx);
-		res = interpolateCubically(line1,line2,line3,line4,yy);
+		line1 = interpolateCubically(p1,p2,p3,p4,(float)xx);
+		line2 = interpolateCubically(q1,q2,q3,q4,(float)xx);
+		line3 = interpolateCubically(r1,r2,r3,r4,(float)xx);
+		line4 = interpolateCubically(s1,s2,s3,s4,(float)xx);
+		res = interpolateCubically(line1,line2,line3,line4,(float)yy);
 
 		return res;
 	}
