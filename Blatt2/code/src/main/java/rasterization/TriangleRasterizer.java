@@ -26,5 +26,18 @@ public class TriangleRasterizer {
 		if (bct.isDegenerate()) return;
 
 		//TODO: Blatt 1, Aufgabe 6
+
+		for(int x=0;x<w;x++){
+			for(int y=0;y<h;y++){
+				BarycentricCoordinates bcC = bct.getBarycentricCoordinates(x,y);
+				if(bcC.isInside() && x<w && y<h){
+					handler.handleTrianglePixel(x,y,bcC);
+				}
+
+			}
+		}
+
+
+
 	}
 }

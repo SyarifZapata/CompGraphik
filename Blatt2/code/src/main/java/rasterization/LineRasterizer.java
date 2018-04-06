@@ -25,5 +25,104 @@ public class LineRasterizer {
 	private void bresenham(Vector2 startPoint, Vector2 endPoint){
 		//TODO: Blatt 1, Aufgabe 3:
 
+		Vector2 d = endPoint.minus(startPoint);
+		double dx = Math.abs(d.x);
+		double dy = Math.abs(d.y);
+
+		int yIncrement = 1;
+		int xIncrement = 1;
+		int x = (int)startPoint.x;
+		int y = (int)startPoint.y;
+		int xEnd = (int)endPoint.x;
+		int yEnd = (int)endPoint.y;
+
+		if(dx < dy){
+
+			double error = 2*dx -dy;
+
+			if(y>yEnd){
+				yIncrement = -1;
+			}
+
+			if(x>xEnd){
+				xIncrement = -1;
+			}
+
+
+
+			while (y<yEnd){
+				y += yIncrement;
+				if(error>0){
+					x += xIncrement;
+					error = error + dx - dy;
+				}else {
+					error = error + dx;
+				}
+				if(x<w && y<h && x>=0 && y >=0){
+					handler.handleLinePixel(y,x,startPoint,endPoint);;
+				}
+
+
+
+			}while (y>yEnd){
+				y += yIncrement;
+				if(error>0){
+					x += xIncrement;
+					error = error + dx - dy;
+				}else {
+					error = error + dx;
+				}
+				if(x<w && y<h && x>=0 && y >=0){
+					handler.handleLinePixel(y,x,startPoint,endPoint);;
+				}
+
+			}
+		}
+
+		if(x<w && y<h && x>=0 && y >=0){
+			handler.handleLinePixel(x,y,startPoint,endPoint);
+		}
+		double error = 2*dy -dx;
+
+
+
+		if(y>yEnd){
+			yIncrement = -1;
+		}
+
+		if(x>xEnd){
+			xIncrement = -1;
+		}
+
+
+
+		while (x<xEnd){
+			x += xIncrement;
+			if(error>0){
+				y += yIncrement;
+				error = error + dy - dx;
+			}else {
+				error = error + dy;
+			}
+			if(x<w && y<h && x>=0 && y >=0){
+				handler.handleLinePixel(x,y,startPoint,endPoint);
+			}
+
+
+
+		}while (x>xEnd){
+			x += xIncrement;
+			if(error>0){
+				y += yIncrement;
+				error = error + dy - dx;
+			}else {
+				error = error + dy;
+			}
+			if(x<w && y<h && x>=0 && y >=0){
+				handler.handleLinePixel(x,y,startPoint,endPoint);
+			}
+
+		}
 	}
+
 }
