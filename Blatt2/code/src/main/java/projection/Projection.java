@@ -9,17 +9,42 @@ public abstract class Projection {
 
 	public static Matrix4 getRotationX(double angle) {
 		//TODO: Blatt 3
-		return new Matrix4();
+		double cosi = Math.cos(angle);
+		double sini = Math.sin(angle);
+
+		Matrix4 matrix4 = new Matrix4();
+		matrix4.set(1,1,cosi);
+		matrix4.set(2,2,cosi);
+		matrix4.set(2,1,sini);
+		matrix4.set(1,2,sini*-1);
+		return matrix4;
 	}
 
 	public static Matrix4 getRotationY(double angle) {
 		//TODO: Blatt 3
-		return new Matrix4();
+		double cosi = Math.cos(angle);
+		double sini = Math.sin(angle);
+
+		Matrix4 matrix4 = new Matrix4();
+		matrix4.set(0,0,cosi);
+		matrix4.set(2,2,cosi);
+		matrix4.set(2,0,sini*-1);
+		matrix4.set(0,2,sini);
+		return matrix4;
 	}
 
 	public static Matrix4 getRotationZ(double angle) {
 		//TODO: Blatt 3
-		return new Matrix4();
+
+		double cosi = Math.cos(angle);
+		double sini = Math.sin(angle);
+
+		Matrix4 matrix4 = new Matrix4();
+		matrix4.set(0,0,cosi);
+		matrix4.set(1,1,cosi);
+		matrix4.set(1,0,sini);
+		matrix4.set(0,1,sini*-1);
+		return matrix4;
 	}
 
 	public static Matrix4 getTranslation(Vector3 trans) {
@@ -29,7 +54,12 @@ public abstract class Projection {
 
 	public static Matrix4 getScaling(Vector3 scale) {
 		//TODO: Blatt 3
-		return new Matrix4();
+
+		Matrix4 matrix4 = new Matrix4();
+		matrix4.set(0,0,scale.x);
+		matrix4.set(1,1,scale.y);
+		matrix4.set(2,2,scale.z);
+		return matrix4;
 	}
 
 	protected int width, height;
