@@ -21,6 +21,11 @@ public class PinholeProjection extends Projection {
 	private void initializeCamera(){
 		camera = new Matrix4();
 		//TODO: Blatt 3
+		camera.set(0,0,width);
+		camera.set(1,1, height);
+		camera.set(0,2,width/2);
+		camera.set(1,2,height/2);
+
 	}
 	
 	private void initializeView(){
