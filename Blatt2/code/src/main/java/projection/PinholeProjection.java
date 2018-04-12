@@ -40,7 +40,7 @@ public class PinholeProjection extends Projection {
 
 		Vector4 result = projection.multiply(vector4);
 
-		return new Vector3(result.x/result.z,result.y/result.z,result.z);
+		return new Vector3(result.x,result.y,result.z);
 	}
 	
 	@Override

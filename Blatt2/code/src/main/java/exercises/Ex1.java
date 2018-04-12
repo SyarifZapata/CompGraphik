@@ -22,17 +22,17 @@ public class Ex1{
 	public Ex1(){
 
 		//Blatt 1, Aufgabe 1 Beispiele
-//		createAndSaveImage();
+		createAndSaveImage();
 		
 		//Blatt 1, Aufgabe 4
 		lineRasterExample();
 		
 		//Blatt 1, Aufgabe 6 Beispiele
-//		triangleRasterExample();
-//		generatePlasteredImage();
+		triangleRasterExample();
+		generatePlasteredImage();
 
 		//Blatt 1, Aufgabe 7 Beispiele
-//		drawInterpolatedTriangles();
+		drawInterpolatedTriangles();
 	}
 	
 	private void createAndSaveImage(){
@@ -84,7 +84,7 @@ public class Ex1{
 		Vector2[] vector3 = {new Vector2(70,0),new Vector2(0,40)};
 		Vector2[] vector4 = {new Vector2(70,40),new Vector2(0,0)};
 		Vector2[] vector5 = {new Vector2(0,0),new Vector2(40,200)};
-		Vector2[] vector6 = {new Vector2(250,250),new Vector2(280,30)};
+		Vector2[] vector6 = {new Vector2(70,150),new Vector2(70,10)};
 		Vector2[] vector7 = {new Vector2(100,230),new Vector2(490,500)};
 		Vector2[] vector8 = {new Vector2(2,450),new Vector2(350,20)};
 		Vector2[] vector9 = {new Vector2(-40,110), new Vector2(600,250)};
