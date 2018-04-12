@@ -8,6 +8,7 @@ import utils.Vector4;
 public abstract class Projection {
 
 	public static Matrix4 getRotationX(double angle) {
+		
 		//TODO: Blatt 3
 		double cosi = Math.cos(angle);
 		double sini = Math.sin(angle);
@@ -49,6 +50,11 @@ public abstract class Projection {
 
 	public static Matrix4 getTranslation(Vector3 trans) {
 		//TODO: Blatt 3
+
+		Matrix4 matrix4 = new Matrix4();
+		matrix4.set(0,4,trans.x);
+		matrix4.set(1,4,trans.y);
+		matrix4.set(2,4,trans.z);
 		return new Matrix4();
 	}
 
