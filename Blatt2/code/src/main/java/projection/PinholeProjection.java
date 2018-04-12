@@ -36,7 +36,12 @@ public class PinholeProjection extends Projection {
 	public Vector3 project(Vector3 pt) {
 		
 		//TODO: Blatt 3
-		return new Vector3(0,0,0);
+		Vector4 vector4 = new Vector4(pt.x,pt.y,pt.z,1);
+
+		Vector4 result = projection.multiply(vector4);
+
+
+		return new Vector3(result.x,result.y,result.z);
 	}
 	
 	@Override
