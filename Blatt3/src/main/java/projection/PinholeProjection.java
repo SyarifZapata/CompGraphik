@@ -38,8 +38,19 @@ public class PinholeProjection extends Projection {
 		Vector4 vector4 = new Vector4(pt.x,pt.y,pt.z,1);
 
 		Vector4 result = projection.multiply(vector4);
+		double x, y, z;
 
-		return new Vector3(result.x/result.z,result.y/result.z,result.z);
+		if(result.z!=0){
+			x = result.x/result.z;
+			y = result.y/result.z;
+			z = result.z;
+		}else{
+			x = result.x;
+			y = result.y;
+			z = result.z;
+		}
+
+		return new Vector3(x,y,z);
 	}
 
 	@Override

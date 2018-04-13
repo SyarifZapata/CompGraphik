@@ -110,7 +110,8 @@ public class LineRasterizer {
 
 
 
-		}while (x>xEnd){
+		}
+		while (x>xEnd){
 			x += xIncrement;
 			if(error>0){
 				y += yIncrement;

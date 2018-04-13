@@ -97,16 +97,15 @@ public class TurnTable implements MouseListener, MouseMotionListener {
 	
 	private double handleAzimuth(int newMouseX, double azimuth){
 		//TODO: Blatt 3, Aufgabe 2
-		int x = newMouseX - mouseX;
+		double x = newMouseX - mouseX;
 		double ratio = (x/w)*Math.PI;
 		azimuth = azimuth + ratio;
-		
 		return azimuth;
 	}
 
 	private double handleElevation(int newMouseY, double elevation){
 		//TODO: Blatt 3, Aufgabe 2
-		int y = newMouseY - mouseY;
+		double y = newMouseY - mouseY;
 		double ratio = (y/h)*Math.PI;
 		elevation = elevation - ratio;
 		return elevation;
