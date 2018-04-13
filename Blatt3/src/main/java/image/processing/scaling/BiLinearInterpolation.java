@@ -13,10 +13,28 @@ public class BiLinearInterpolation implements Interpolation {
 	
 	@Override
 	public RGBA access(double x, double y) {
-		
-		RGBA res = new RGBA(0.0f, 0.0f, 0.0f);
-		
+
 		//TODO: Blatt 2, Aufgabe 2
+
+		int ax0 = (int)x;
+		int ax1 = ax0 +1;
+		int ay0 = (int)y;
+		int ay1 = ay0 +1;
+
+		RGBA linksOben = img.get(ax0,ay0);
+		RGBA rechtsOben = img.get(ax1,ay0);
+		RGBA linksUnten = img.get(ax0,ay1);
+		RGBA rechtsUnten = img.get(ax1,ay1);
+
+		double xDist = x%1;
+
+		RGBA oben = linearlyInterpolate(linksOben,rechtsOben,xDist);
+		RGBA unten = linearlyInterpolate(linksUnten,rechtsUnten,xDist);
+
+		double yDist = y%1;
+
+		RGBA res = linearlyInterpolate(oben,unten,yDist);
+
 
 		return res;
 	}
@@ -27,9 +45,10 @@ public class BiLinearInterpolation implements Interpolation {
 	 */
 	private RGBA linearlyInterpolate(RGBA c0, RGBA c1, double dx) {
 		
-		RGBA res = new RGBA(0.0f, 0.0f, 0.0f);
+		RGBA res;
 		
 		//TODO: Blatt 2, Aufgabe 2
+		res = c1.times(dx).plus(c0.times(1-dx));
 		
 		return res;
 	}

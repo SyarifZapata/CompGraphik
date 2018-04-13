@@ -25,6 +25,17 @@ public class ForwardWarp implements ImageAlgorithm {
 		SimpleRenderer r = new SimpleRenderer(img.cols(), img.rows(), new InterpolatedColorShader());
 		
 		//TODO: Blatt 2, Aufgabe 3
+		for (int x = 0; x < img.cols() ; x++) {
+			for (int y = 0; y < img.rows() ; y++) {
+				Vector2 v1,v2,v3,v4;
+				v1 = new Vector2(x, y).plus(flowField.get(x,y));
+				v2 = new Vector2(x + 1, y).plus(flowField.get(x+1,y));
+				v3 = new Vector2(x, y + 1).plus(flowField.get(x,y+1));
+				v4 = new Vector2(x + 1, y + 1).plus(flowField.get(x+1,y+1));
+				r.drawTriangle(new Vector2[]{v1, v3, v2}, new RGBA[]{img.get(x, y), img.get(x,y+1), img.get(x+1,y)});
+				r.drawTriangle(new Vector2[]{v2, v4, v3}, new RGBA[]{img.get((x+1),y), img.get(x+1,y+1), img.get(x,y+1)});
+			}
+		}
 
 		return r.getImg();
 	}
@@ -44,3 +55,5 @@ public class ForwardWarp implements ImageAlgorithm {
 	}
 
 }
+
+
