@@ -10,30 +10,38 @@ import utils.Matrix4;
 public class PinholeProjection extends Projection {
 
 	protected Matrix4 camera, view, projection;
-	
+
 	public PinholeProjection(int width, int height){
 		super(width, height);
 		initializeCamera();
 		initializeView();
 		projection = Matrix4.multiply(camera, view);
 	}
-	
+
 	private void initializeCamera(){
 		camera = new Matrix4();
 		//TODO: Blatt 3
+		camera.set(0,0,width);
+		camera.set(1,1, height);
+		camera.set(0,2,width/2);
+		camera.set(1,2,height/2);
 	}
-	
+
 	private void initializeView(){
 		view = new Matrix4();
 	}
-	
+
 	@Override
 	public Vector3 project(Vector3 pt) {
-		
+
 		//TODO: Blatt 3
-		return new Vector3(0,0,0);
+		Vector4 vector4 = new Vector4(pt.x,pt.y,pt.z,1);
+
+		Vector4 result = projection.multiply(vector4);
+
+		return new Vector3(result.x/result.z,result.y/result.z,result.z);
 	}
-	
+
 	@Override
 	public Matrix4 getMatrix(){
 		return projection;
@@ -42,29 +50,29 @@ public class PinholeProjection extends Projection {
 	public Matrix4 getView(){
 		return view;
 	}
-	
+
 	public void setView(Matrix4 m){
 		view = m;
 		projection = Matrix4.multiply(camera, view);
 	}
-	
+
 	public void setCamera(Matrix4 m){
 		camera = m;
 		projection = Matrix4.multiply(camera, view);
 	}
-	
+
 	public Vector4 getEye(){
 		Matrix4 ti = new Matrix4(projection);
 		ti = ti.inverted();
-		
+
 		Vector4 e = ti.multiply(new Vector4(0,0,0,1));
 		e = e.times(1.0/e.w);
-		
+
 		return e;
 	}
-	
+
 	public Matrix4 getViewMatrixOfLightSource(PointLight lightSource){
-		
+
 		//Blatt 5, Aufgabe 1 a)
 		return new Matrix4();
 	}
