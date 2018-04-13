@@ -5,7 +5,7 @@ import utils.Vector2;
 import image.RGBA;
 
 public class InterpolatedColorShader extends PixelShader {
-	
+
 
 	/**
 	 * Colors a pixel (x,y) of a line between startPoint and endPoint with 
@@ -14,6 +14,15 @@ public class InterpolatedColorShader extends PixelShader {
 	@Override
 	public void handleLinePixel(int x, int y, Vector2 startPoint, Vector2 endPoint) {
 		//TODO: Blatt 1, Aufgabe 6
+		double totallength = endPoint.minus(startPoint).length();
+		Vector2 currentVector = new Vector2(x,y);
+		double lambda1 = currentVector.minus(startPoint).length()/totallength;
+		double lambda2 = 1-lambda1;
+
+		RGBA farbe = lineColors[0].times(lambda1).plus(lineColors[1].times(lambda2));
+
+		getImage().set(x,y,farbe);
+
 	}
 
 	/**
@@ -22,8 +31,11 @@ public class InterpolatedColorShader extends PixelShader {
 	 */
 	@Override
 	public void handleTrianglePixel(int x, int y,
-			BarycentricCoordinates triCoords) {
+									BarycentricCoordinates triCoords) {
 		//TODO: Blatt 1, Aufgabe 6
+		RGBA farbe = triangleColors[0].times(triCoords.x).plus(triangleColors[1].times(triCoords.y))
+				.plus(triangleColors[2].times(triCoords.z));
+		getImage().set(x,y,farbe);
 	}
 
 	@Override
