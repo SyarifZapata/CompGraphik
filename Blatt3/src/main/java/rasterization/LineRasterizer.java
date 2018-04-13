@@ -59,7 +59,7 @@ public class LineRasterizer {
 					error = error + dx;
 				}
 				if(x<w && y<h && x>=0 && y >=0){
-					handler.handleLinePixel(y,x,startPoint,endPoint);;
+					handler.handleLinePixel(x,y,startPoint,endPoint);;
 				}
 
 

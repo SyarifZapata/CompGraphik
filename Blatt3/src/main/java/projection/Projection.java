@@ -52,9 +52,9 @@ public abstract class Projection {
 		//TODO: Blatt 3
 
 		Matrix4 matrix4 = new Matrix4();
-		matrix4.set(0,4,trans.x);
-		matrix4.set(1,4,trans.y);
-		matrix4.set(2,4,trans.z);
+		matrix4.set(0,3,trans.x);
+		matrix4.set(1,3,trans.y);
+		matrix4.set(2,3,trans.z);
 		return new Matrix4();
 	}
 

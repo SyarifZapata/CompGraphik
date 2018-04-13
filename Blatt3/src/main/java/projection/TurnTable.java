@@ -39,7 +39,9 @@ public class TurnTable implements MouseListener, MouseMotionListener {
 	
 	private Matrix4 buildViewMatrix(double azimuth, double elevation, Vector3 translation){
 		//TODO: Blatt 3, Aufgabe 2
-
+		Matrix4 zwischenRes = Projection.getRotationY(azimuth);
+		Matrix4 result = Matrix4.multiply(zwischenRes,Projection.getRotationZ(elevation));
+		currentView = Matrix4.multiply(result,Projection.getTranslation(translation));
 		return currentView;
 	}
 	
@@ -95,13 +97,18 @@ public class TurnTable implements MouseListener, MouseMotionListener {
 	
 	private double handleAzimuth(int newMouseX, double azimuth){
 		//TODO: Blatt 3, Aufgabe 2
+		int x = newMouseX - mouseX;
+		double ratio = (x/w)*Math.PI;
+		azimuth = azimuth + ratio;
 		
 		return azimuth;
 	}
 
 	private double handleElevation(int newMouseY, double elevation){
 		//TODO: Blatt 3, Aufgabe 2
-		
+		int y = newMouseY - mouseY;
+		double ratio = (y/h)*Math.PI;
+		elevation = elevation - ratio;
 		return elevation;
 	}
 	
