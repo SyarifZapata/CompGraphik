@@ -79,24 +79,31 @@ public class Ex1{
 		//SimpleRenderer simpleRenderer = new SimpleRenderer(width, height, new ConstantColorShader());
 		SimpleRenderer simpleRenderer = new SimpleRenderer(width, height, new InterpolatedColorShader());
 
-		Vector2[] vector1 = {new Vector2(0,40),new Vector2(70,0)};
-		Vector2[] vector2 = {new Vector2(0,0),new Vector2(70,40)};
-		Vector2[] vector3 = {new Vector2(70,0),new Vector2(0,40)};
-		Vector2[] vector4 = {new Vector2(70,40),new Vector2(0,0)};
+		Vector2[] vector1 = {new Vector2(0,40),new Vector2(70,0)}; // left to right dx greater
+		Vector2[] vector2 = {new Vector2(0,0),new Vector2(70,40)}; // right to left dx greater
+
+		Vector2[] vector3 = {new Vector2(75,0),new Vector2(0,45)};
+		Vector2[] vector4 = {new Vector2(75,45),new Vector2(5,5)};
+
 		Vector2[] vector5 = {new Vector2(0,0),new Vector2(40,200)};
-		Vector2[] vector6 = {new Vector2(70,150),new Vector2(70,10)};
-		Vector2[] vector7 = {new Vector2(100,230),new Vector2(490,500)};
+
+
+		Vector2[] vector6 = {new Vector2(70,150),new Vector2(70,10)}; // gerade aus unten nach oben dy greater
+
+		Vector2[] vector7 = {new Vector2(100,230),new Vector2(300,500)};
 		Vector2[] vector8 = {new Vector2(2,450),new Vector2(350,20)};
+
 		Vector2[] vector9 = {new Vector2(-40,110), new Vector2(600,250)};
 		RGBA[] rgba1 = {new RGBA(0.9,0.7,0.1),new RGBA(0.9,0.9,0.9)};
 		RGBA[] rgba2 = {new RGBA(0,0,1),new RGBA(1,0,0)};
 
 		//TODO: Blatt 1, Aufgabe 4
-		//simpleRenderer.drawPlainLine(vectors,new RGBA(0.3,0.5,0.7));
+
 		simpleRenderer.drawPlainLine(vector1,new RGBA(0.3,0.5,0.7));
 		simpleRenderer.drawPlainLine(vector2,new RGBA(0,1,0));
 		simpleRenderer.drawPlainLine(vector3,new RGBA(0,1,1));
 		simpleRenderer.drawPlainLine(vector4,new RGBA(0,0,1));
+		simpleRenderer.drawPlainLine(vector5,new RGBA(0.3,0.5,0.7));
 		simpleRenderer.drawPlainLine(vector6,new RGBA(1,0,1));
 		simpleRenderer.drawLine(vector7,rgba1);
 		simpleRenderer.drawLine(vector8,rgba1);

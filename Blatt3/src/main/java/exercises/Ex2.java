@@ -35,7 +35,7 @@ public class Ex2 {
 		blatt2Aufgabe2();
 		
 		//Blatt 3 Aufgabe 3 Beispiele
-		//blatt2Aufgabe3();
+		blatt2Aufgabe3();
 		
 	}
 	public static void prepareOutput(String outPath){

@@ -36,94 +36,77 @@ public class LineRasterizer {
 		int xEnd = (int)endPoint.x;
 		int yEnd = (int)endPoint.y;
 
+
+		// When the distance in y axis is greater than the y axis.
 		if(dx < dy){
 
 			double error = 2*dx -dy;
 
 			if(y>yEnd){
-				yIncrement = -1;
+				//yIncrement = -1;
+
+				int tempx = x;
+				int tempy = y;
+				x = xEnd;
+				y = yEnd;
+				xEnd = tempx;
+				yEnd = tempy;
 			}
 
 			if(x>xEnd){
 				xIncrement = -1;
 			}
 
-
-
-			while (y<yEnd){
+			while (y<yEnd) {
 				y += yIncrement;
-				if(error>0){
+				if (error > 0) {
 					x += xIncrement;
 					error = error + dx - dy;
-				}else {
+				} else {
 					error = error + dx;
 				}
-				if(x<w && y<h && x>=0 && y >=0){
-					handler.handleLinePixel(x,y,startPoint,endPoint);;
+				if (x < w && y < h && x >= 0 && y >= 0) {
+					handler.handleLinePixel(x, y, startPoint, endPoint);
+				}
+			}
+
+
+		}else{
+
+			double error = 2*dy -dx;
+
+			if(x>xEnd){
+
+				int tempx = x;
+				int tempy = y;
+				x = xEnd;
+				y = yEnd;
+				xEnd = tempx;
+				yEnd = tempy;
+
+			}
+
+			if(y>yEnd){
+				yIncrement = -1;
+			}
+
+			while (x<xEnd) {
+				x += xIncrement;
+				if (error > 0) {
+					y += yIncrement;
+					error = error + dy - dx;
+				} else {
+					error = error + dy;
 				}
 
-
-
-			}while (y>yEnd){
-				y += yIncrement;
-				if(error>0){
-					x += xIncrement;
-					error = error + dx - dy;
-				}else {
-					error = error + dx;
+				if (x < w && y < h && x >= 0 && y >= 0) {
+					handler.handleLinePixel(x, y, startPoint, endPoint);
 				}
-				if(x<w && y<h && x>=0 && y >=0){
-					handler.handleLinePixel(x,y,startPoint,endPoint);;
-				}
-
-			}
-		}
-
-		if(x<w && y<h && x>=0 && y >=0){
-			handler.handleLinePixel(x,y,startPoint,endPoint);
-		}
-		double error = 2*dy -dx;
-
-
-
-		if(y>yEnd){
-			yIncrement = -1;
-		}
-
-		if(x>xEnd){
-			xIncrement = -1;
-		}
-
-
-
-		while (x<xEnd){
-			x += xIncrement;
-			if(error>0){
-				y += yIncrement;
-				error = error + dy - dx;
-			}else {
-				error = error + dy;
-			}
-			if(x<w && y<h && x>=0 && y >=0){
-				handler.handleLinePixel(x,y,startPoint,endPoint);
 			}
 
 
-
 		}
-		while (x>xEnd){
-			x += xIncrement;
-			if(error>0){
-				y += yIncrement;
-				error = error + dy - dx;
-			}else {
-				error = error + dy;
-			}
-			if(x<w && y<h && x>=0 && y >=0){
-				handler.handleLinePixel(x,y,startPoint,endPoint);
-			}
 
-		}
 	}
 
 }
