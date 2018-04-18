@@ -47,7 +47,6 @@ public class TurnTable implements MouseListener, MouseMotionListener {
 		//System.out.println(zwischenRes);
 		currentView = Matrix4.multiply(zwischenRes,Projection.getRotationZ(elevation));
 		//System.out.println(result);
-		//currentView = Matrix4.multiply(result,Projection.getTranslation(translation));
 		currentView.set(0,3,translation.x);
 		currentView.set(1,3,translation.y);
 		currentView.set(2,3,translation.z);

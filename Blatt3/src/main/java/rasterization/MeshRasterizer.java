@@ -48,10 +48,34 @@ public class MeshRasterizer implements TrianglePixelHandler{
 	}
 	
 	public Image<Correspondence> rasterize(Projection p, TriangleRasterizer r, Mesh[] meshes){
-		
+
 		for(Mesh mesh : meshes){
-			
 			//TODO: Blatt 3, Aufgabe 3 a)
+
+
+			for (int i = 0; i < mesh.tvi.length; i++){
+
+				Vector3 point_1 = mesh.vertices[mesh.tvi[i].get(0)];
+
+				Vector3 point_2 = mesh.vertices[mesh.tvi[i].get(1)];
+				Vector3 point_3 = mesh.vertices[mesh.tvi[i].get(2)];
+
+				Vector3 a = p.project(point_1);
+				Vector3 b = p.project(point_2);
+				Vector3 c = p.project(point_3);
+
+				Vector2 vector2_1 = new Vector2(a.x,a.y);
+				Vector2 vector2_2 = new Vector2(b.x,b.y);
+				Vector2 vector2_3 = new Vector2(c.x,c.y);
+
+				Vector2[] vectors = {vector2_1,vector2_2,vector2_3};
+
+				currentDepths = new double[]{mesh.vertices[0].z,mesh.vertices[1].z, mesh.vertices[2].z};
+				currentMesh = mesh;
+				currentTriangle = i;
+				r.rasterTriangle(vectors);
+			}
+
 			//TODO: Blatt 3, Aufgabe 4
 		}
 		
@@ -66,6 +90,24 @@ public class MeshRasterizer implements TrianglePixelHandler{
 	public void handleTrianglePixel(int x, int y, BarycentricCoordinates triCoords) {
 		
 		//TODO: Blatt 3, Aufgabe 3b)
+
+		double d = triCoords.interpolate(currentDepths[0], currentDepths[1], currentDepths[2]);
+		if (d < 0){
+			zDir = ZDirection.Backward;
+
+		}
+
+		if (correspondenceImage.get(x,y) != null){
+			if(correspondenceImage.get(x,y).depth < d && zDir == ZDirection.Forward){
+				correspondenceImage.set(x, y, new Correspondence(currentMesh, currentTriangle, triCoords, d));
+			}else {
+
+			}
+
+		}else {
+			correspondenceImage.set(x, y, new Correspondence(currentMesh, currentTriangle, triCoords, d));
+		}
+
 	}
 	
 	private BarycentricCoordinates getWorldLambda(BarycentricCoordinates oldLambda){
