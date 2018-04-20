@@ -62,7 +62,18 @@ public class MeshRenderer implements TurnableRenderer {
 	}
 	
 	protected void callShader(int x, int y, Correspondence c){
-		
+
+		//give each triangle their own grey color:
+		//grey = triangle number / number of all triangles
+
+
+
+		double greyColor = (double)(c.triangle)/c.mesh.tvi.length;
+		RGBA color = new RGBA(greyColor, greyColor, greyColor);
+
+		RGBA[] colors = {c.mesh.colors[c.mesh.tci[c.triangle].get(0)],c.mesh.colors[c.mesh.tci[c.triangle].get(1)],c.mesh.colors[c.mesh.tci[c.triangle].get(2)]};
+		shader.setTriangleColors(colors);
+		shader.handleTrianglePixel(x, y, c.triCoords);
 		//TODO: Blatt 3, Aufgabe 3c)
 	}
 	

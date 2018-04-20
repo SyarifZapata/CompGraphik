@@ -64,16 +64,24 @@ public class MeshRasterizer implements TrianglePixelHandler{
 				Vector3 b = p.project(point_2);
 				Vector3 c = p.project(point_3);
 
+				Vector3[] vector3s = {a,b,c};
+
+				currentDepths = new double[]{vector3s[0].z,vector3s[1].z, vector3s[2].z};
+				currentMesh = mesh;
+				currentTriangle = i;
+
 				Vector2 vector2_1 = new Vector2(a.x,a.y);
 				Vector2 vector2_2 = new Vector2(b.x,b.y);
 				Vector2 vector2_3 = new Vector2(c.x,c.y);
 
 				Vector2[] vectors = {vector2_1,vector2_2,vector2_3};
 
-				currentDepths = new double[]{mesh.vertices[0].z,mesh.vertices[1].z, mesh.vertices[2].z};
-				currentMesh = mesh;
-				currentTriangle = i;
-				r.rasterTriangle(vectors);
+
+
+				if(currentDepths[0]<cNear && currentDepths[1]<cNear && currentDepths[2]<cNear){
+					r.rasterTriangle(vectors);
+				}
+
 			}
 
 			//TODO: Blatt 3, Aufgabe 4
