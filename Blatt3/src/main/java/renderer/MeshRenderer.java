@@ -70,6 +70,8 @@ public class MeshRenderer implements TurnableRenderer {
 
 		double greyColor = (double)(c.triangle)/c.mesh.tvi.length;
 		RGBA color = new RGBA(greyColor, greyColor, greyColor);
+		//System.out.println(c.mesh.colors); need to find the right index Probably in TCI
+		//System.out.println(c.triangle); // index of triangle 0-3
 
 		RGBA[] colors = {c.mesh.colors[c.mesh.tci[c.triangle].get(0)],c.mesh.colors[c.mesh.tci[c.triangle].get(1)],c.mesh.colors[c.mesh.tci[c.triangle].get(2)]};
 		shader.setTriangleColors(colors);
