@@ -13,6 +13,8 @@ import utils.Triplet;
 import utils.Vector3;
 import utils.Vector4;
 
+import java.util.Vector;
+
 public class PhongMeshRenderer extends MeshRenderer {
 
 	protected Image<RGBA> img;
@@ -75,6 +77,46 @@ public class PhongMeshRenderer extends MeshRenderer {
 	
 	protected void shadePhong(int x, int y, Correspondence c, Vector4 eye){
 		//TODO: Blatt 4, Aufgabe 2
+		//Iphong = ra.Ia + rd.ic.<L,N>+rs.ic <R,V>^m
+		RGBA ra = material.ambient;
+		RGBA ia = lightSource.ambient;
+		RGBA rd = material.diffuseReflectance;
+		RGBA rs = material.specularReflectance;
+		RGBA ic = lightSource.color;
+		double m = material.shininess;
+
+		Vector3 l1 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(0)]);
+		Vector3 l2 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(1)]);
+		Vector3 l3 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(2)]);
+
+		Vector3 l = c.triCoords.interpolate(l1,l2,l3).normalize();
+
+		Vector3 first = c.mesh.normals[c.mesh.tni[c.triangle].get(0)];
+		Vector3 second = c.mesh.normals[c.mesh.tni[c.triangle].get(1)];
+		Vector3 third = c.mesh.normals[c.mesh.tni[c.triangle].get(2)];
+
+		Vector3 n = c.triCoords.interpolate(first,second,third).normalize();
+
+		Vector3 betrachter = new Vector3(eye.x,eye.y,eye.z).normalize();
+		double scalarProduct_LN = l.dot(n);
+		Vector3 r = l.minus(n.times(scalarProduct_LN*2)).normalize();
+		double scalarProduct_RV = r.dot(betrachter);
+
+
+		RGBA phong = ra.multElementWise(ia)
+				.plus(rd.multElementWise(ic).times(scalarProduct_LN))
+				.plus(rs.multElementWise(ic).times(Math.pow(scalarProduct_RV,m)));
+		phong.clamp();
+
+
+		if(scalarProduct_LN>0){
+			img.set(x,y,phong);
+		}else {
+			RGBA a = phong.minus(rd);
+			a.clamp();
+			img.set(x,y,a);
+		}
+
 		//TODO: Blatt 5, Aufgabe 1 c)
 		
 	}

@@ -51,6 +51,7 @@ public class LambertMeshRenderer extends MeshRenderer{
 		//TODO: Blatt 4, Aufgabe 1
 		//Lambert=Ilight.<L.N>.albado
 		RGBA light = lightSource.color;
+
 		Vector3 l1 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(0)]);
 		Vector3 l2 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(1)]);
 		Vector3 l3 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(2)]);
