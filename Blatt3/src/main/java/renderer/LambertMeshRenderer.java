@@ -51,11 +51,24 @@ public class LambertMeshRenderer extends MeshRenderer{
 		//TODO: Blatt 4, Aufgabe 1
 		//Lambert=Ilight.<L.N>.albado
 		RGBA light = lightSource.color;
-		Vector3 l = lightSource.position;
-		Vector3 n = new Vector3(x,y,c.depth);
+		Vector3 l1 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(0)]);
+		Vector3 l2 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(1)]);
+		Vector3 l3 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(2)]);
+
+		Vector3 l = c.triCoords.interpolate(l1,l2,l3).normalize();
+
+		Vector3 first = c.mesh.normals[c.mesh.tni[c.triangle].get(0)];
+		Vector3 second = c.mesh.normals[c.mesh.tni[c.triangle].get(1)];
+		Vector3 third = c.mesh.normals[c.mesh.tni[c.triangle].get(2)];
+
+		Vector3 n = c.triCoords.interpolate(first,second,third).normalize();
+
 		double scalarProd = l.dot(n);
-		RGBA lambert = light.times(scalarProd).times(MATERIAL_ALBEDO);
-		if(scalarProd != 0){
+
+
+		if(scalarProd>0){
+			RGBA lambert = light.times(scalarProd* MATERIAL_ALBEDO);
+			lambert.clamp();
 			img.set(x,y,lambert);
 		}
 
