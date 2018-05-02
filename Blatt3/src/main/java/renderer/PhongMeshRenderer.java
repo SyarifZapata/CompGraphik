@@ -109,13 +109,9 @@ public class PhongMeshRenderer extends MeshRenderer {
 		phong.clamp();
 
 
-		if(scalarProduct_LN>0){
-			img.set(x,y,phong);
-		}else {
-			RGBA a = phong.minus(rd);
-			a.clamp();
-			img.set(x,y,a);
-		}
+
+		img.set(x, y, phong);
+
 
 		//TODO: Blatt 5, Aufgabe 1 c)
 		
