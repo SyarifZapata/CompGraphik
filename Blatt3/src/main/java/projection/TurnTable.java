@@ -118,8 +118,8 @@ public class TurnTable implements MouseListener, MouseMotionListener {
 	private double handleAzimuth(int newMouseX, double azimuth){
 		//TODO: Blatt 3, Aufgabe 2
 		double x = mouseX - newMouseX;
-		double ratio = (x/w)*180;
-		ratio = ratio * (Math.PI/180);
+		double ratio = (x/w);
+		ratio = ratio * (Math.PI);
 		azimuth = ratio;
 
 		return azimuth;
@@ -128,8 +128,8 @@ public class TurnTable implements MouseListener, MouseMotionListener {
 	private double handleElevation(int newMouseY, double elevation){
 		//TODO: Blatt 3, Aufgabe 2
 		double y = mouseY - newMouseY;
-		double ratio = (y/h)*180;
-		ratio = ratio * (Math.PI/180);
+		double ratio = (y/h);
+		ratio = ratio * (Math.PI);
 		elevation = ratio;
 		return elevation;
 	}
