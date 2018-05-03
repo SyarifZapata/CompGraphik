@@ -60,6 +60,10 @@ public class ReflectanceMeshRenderer extends MeshRenderer{
 	// matBrdf:  [reflectance.LambertBrdf@366820c, reflectance.CookTorrance@111a3d90]
 	//lightSources		[illumination.PointLight@77468339]
 	protected void shade(int x, int y, Correspondence c, Vector4 eye, PointLight lightSource){
+		RGBA color = img.get(x,y);
+		if(color == null) {
+			color = RGBA.black;
+		}
 
 		Vector3 p,p1,p2,p3;
 
@@ -75,12 +79,31 @@ public class ReflectanceMeshRenderer extends MeshRenderer{
 
 		Vector3 n = c.triCoords.interpolate(first,second,third).normalize();
 
-		RGBA radiance1 = matBrdf.get(0).getRadiance(eye,p,lightSource,n);
-		RGBA radiance2 = matBrdf.get(1).getRadiance(eye,p,lightSource,n);
+		ArrayList<PointLight> lichtquelle = new ArrayList<PointLight>();
 
-		RGBA radiance = radiance1.multElementWise(radiance2);
+		lichtquelle.add(lightSource);
+		lichtquelle.addAll(lightSources);
 
-		img.set(x,y,radiance);
+//		int size;
+//		if(lichtquelle.size()>matBrdf.size()){
+//			size = lichtquelle.size();
+//		}else {
+//			size = matBrdf.size();
+//		}
+
+		RGBA farbe = new RGBA(0,0,0);
+		for(Brdf brdf : matBrdf) {
+			color = color.plus(brdf.getRadiance(eye, p, lightSource, n));
+		}
+
+
+
+//		RGBA farbe = matBrdf.get(0).getRadiance(eye,p,lightSource,n);
+//		if(!lightSources.isEmpty() && matBrdf){
+//			farbe.plus(matBrdf.get(1).getRadiance(eye,p,lightSources.get(0),n))
+//		}
+
+		img.set(x,y,color);
 
 		//TODO: Blatt 4, Aufgabe 3 b)
 		//TODO: Blatt 5, Aufgabe 1 c)
