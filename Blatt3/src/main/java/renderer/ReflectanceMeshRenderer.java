@@ -56,8 +56,32 @@ public class ReflectanceMeshRenderer extends MeshRenderer{
 		}
 		return img;
 	}
-	
+
+	// matBrdf:  [reflectance.LambertBrdf@366820c, reflectance.CookTorrance@111a3d90]
+	//lightSources		[illumination.PointLight@77468339]
 	protected void shade(int x, int y, Correspondence c, Vector4 eye, PointLight lightSource){
+
+		Vector3 p,p1,p2,p3;
+
+		p1 = c.mesh.vertices[c.mesh.tvi[c.triangle].get(0)];
+		p2 = c.mesh.vertices[c.mesh.tvi[c.triangle].get(1)];
+		p3 = c.mesh.vertices[c.mesh.tvi[c.triangle].get(2)];
+
+		p = c.triCoords.interpolate(p1,p2,p3);
+
+		Vector3 first = c.mesh.normals[c.mesh.tni[c.triangle].get(0)];
+		Vector3 second = c.mesh.normals[c.mesh.tni[c.triangle].get(1)];
+		Vector3 third = c.mesh.normals[c.mesh.tni[c.triangle].get(2)];
+
+		Vector3 n = c.triCoords.interpolate(first,second,third).normalize();
+
+		RGBA radiance1 = matBrdf.get(0).getRadiance(eye,p,lightSource,n);
+		RGBA radiance2 = matBrdf.get(1).getRadiance(eye,p,lightSource,n);
+
+		RGBA radiance = radiance1.multElementWise(radiance2);
+
+		img.set(x,y,radiance);
+
 		//TODO: Blatt 4, Aufgabe 3 b)
 		//TODO: Blatt 5, Aufgabe 1 c)
 		
