@@ -74,7 +74,7 @@ public class PhongMeshRenderer extends MeshRenderer {
 		
 		return img;
 	}
-	
+
 	protected void shadePhong(int x, int y, Correspondence c, Vector4 eye){
 		//TODO: Blatt 4, Aufgabe 2
 		//Iphong = ra.Ia + rd.ic.<L,N>+rs.ic <R,V>^m
@@ -85,11 +85,16 @@ public class PhongMeshRenderer extends MeshRenderer {
 		RGBA ic = lightSource.color;
 		double m = material.shininess;
 
-		Vector3 l1 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(0)]);
-		Vector3 l2 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(1)]);
-		Vector3 l3 = lightSource.position.minus(c.mesh.vertices[c.mesh.tvi[c.triangle].get(2)]);
+		Vector3 p,p1,p2,p3;
 
-		Vector3 l = c.triCoords.interpolate(l1,l2,l3).normalize();
+		p1 = c.mesh.vertices[c.mesh.tvi[c.triangle].get(0)];
+		p2 = c.mesh.vertices[c.mesh.tvi[c.triangle].get(1)];
+		p3 = c.mesh.vertices[c.mesh.tvi[c.triangle].get(2)];
+
+		p = c.triCoords.interpolate(p1,p2,p3);
+
+		// will it also work the other way around? p-lightsource postition?
+		Vector3 l = lightSource.position.minus(p).normalize();
 
 		Vector3 first = c.mesh.normals[c.mesh.tni[c.triangle].get(0)];
 		Vector3 second = c.mesh.normals[c.mesh.tni[c.triangle].get(1)];
@@ -97,10 +102,20 @@ public class PhongMeshRenderer extends MeshRenderer {
 
 		Vector3 n = c.triCoords.interpolate(first,second,third).normalize();
 
-		Vector3 betrachter = new Vector3(eye.x,eye.y,eye.z).normalize();
+		// why wont it works with eye - betrachter? 
+		Vector3 betrachter = p.minus(new Vector3(eye.x/eye.w,eye.y/eye.w,eye.z/eye.w)).normalize();
+
 		double scalarProduct_LN = l.dot(n);
 		Vector3 r = l.minus(n.times(scalarProduct_LN*2)).normalize();
 		double scalarProduct_RV = r.dot(betrachter);
+
+		if(scalarProduct_LN<0){
+			scalarProduct_LN = 0;
+		}
+
+		if(scalarProduct_RV<0){
+			scalarProduct_RV =0;
+		}
 
 
 		RGBA phong = ra.multElementWise(ia)
@@ -114,7 +129,7 @@ public class PhongMeshRenderer extends MeshRenderer {
 
 
 		//TODO: Blatt 5, Aufgabe 1 c)
-		
+
 	}
 
 	public void enableShadow() {
