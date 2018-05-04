@@ -20,24 +20,22 @@ public class CookTorrance extends Brdf {
 	@Override
 	protected RGBA getRadiance(Vector3 toEye, Vector3 toLight, Vector3 n) {
 		//Blatt 4, Aufgabe 4
-		toEye.normalize();
-		toLight.normalize();
-		n.normalize();
-		Vector3 halfAngle = toEye.plus(toLight).normalize();
 
-		double d = 1/(4* Math.pow(m,2) *  Math.pow(n.dot(halfAngle),4))* Math.exp(-((1-Math.pow(n.dot(halfAngle),2))/(Math.pow(n.dot(halfAngle),2)*Math.pow(m,2))));
+		Vector3 halfAngle = toEye.plus(toLight).times(1 / (toEye.plus(toLight).length()));
+
+		double d = (1/(4* Math.pow(m,2) *  Math.pow(n.dot(halfAngle),4)))* Math.exp(-(((1-Math.pow(n.dot(halfAngle),2)))/(Math.pow(n.dot(halfAngle),2)*Math.pow(m,2))));
 
 		double g1 = 1;
-		double g2 = (2 * Math.abs(n.dot(halfAngle))* Math.abs(n.dot(toEye)))/Math.abs(toEye.dot(halfAngle));
-		double g3 = (2 * Math.abs(n.dot(halfAngle))* Math.abs(n.dot(toLight)))/Math.abs(toEye.dot(halfAngle));
+		double g2 = (2* Math.abs(n.dot(halfAngle))* Math.abs(n.dot(toEye)))/Math.abs(toEye.dot(halfAngle));
+		double g3 = (2* Math.abs(n.dot(halfAngle))* Math.abs(n.dot(toLight)))/Math.abs(toEye.dot(halfAngle));
 		double g4 = Math.min(g1,g2);
 		double g = Math.min(g3,g4);
 
-		double f = r0 + (1 - r0)*Math.pow((1-Math.abs(halfAngle.dot(toEye))),5);
+		double f = r0 + ((1 - r0)*Math.pow((1-Math.abs(halfAngle.dot(toEye))),5));
 
 		double multiplier = (f*d*g)/(4*toEye.dot(n));
 
-		albedo.times(multiplier);
+		albedo = albedo.times(multiplier);
 		return albedo;
 	}
 	

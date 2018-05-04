@@ -79,29 +79,11 @@ public class ReflectanceMeshRenderer extends MeshRenderer{
 
 		Vector3 n = c.triCoords.interpolate(first,second,third).normalize();
 
-		ArrayList<PointLight> lichtquelle = new ArrayList<PointLight>();
-
-		lichtquelle.add(lightSource);
-		lichtquelle.addAll(lightSources);
-
-//		int size;
-//		if(lichtquelle.size()>matBrdf.size()){
-//			size = lichtquelle.size();
-//		}else {
-//			size = matBrdf.size();
-//		}
 
 		RGBA farbe = new RGBA(0,0,0);
 		for(Brdf brdf : matBrdf) {
 			color = color.plus(brdf.getRadiance(eye, p, lightSource, n));
 		}
-
-
-
-//		RGBA farbe = matBrdf.get(0).getRadiance(eye,p,lightSource,n);
-//		if(!lightSources.isEmpty() && matBrdf){
-//			farbe.plus(matBrdf.get(1).getRadiance(eye,p,lightSources.get(0),n))
-//		}
 
 		img.set(x,y,color);
 
