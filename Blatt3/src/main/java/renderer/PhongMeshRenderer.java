@@ -78,6 +78,7 @@ public class PhongMeshRenderer extends MeshRenderer {
 	protected void shadePhong(int x, int y, Correspondence c, Vector4 eye){
 		//TODO: Blatt 4, Aufgabe 2
 		//Iphong = ra.Ia + rd.ic.<L,N>+rs.ic <R,V>^m
+
 		RGBA ra = material.ambient;
 		RGBA ia = lightSource.ambient;
 		RGBA rd = material.diffuseReflectance;
@@ -121,7 +122,7 @@ public class PhongMeshRenderer extends MeshRenderer {
 		RGBA phong = ra.multElementWise(ia)
 				.plus(rd.multElementWise(ic).times(scalarProduct_LN))
 				.plus(rs.multElementWise(ic).times(Math.pow(scalarProduct_RV,m)));
-		phong.clamp();
+		//phong.clamp();
 
 
 
