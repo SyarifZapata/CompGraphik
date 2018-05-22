@@ -83,9 +83,43 @@ public class PinholeProjection extends Projection {
 	}
 
 	public Matrix4 getViewMatrixOfLightSource(PointLight lightSource){
+		//TODO: Blatt 5, Aufgabe 1 a.)
+		double l = lightSource.position.length();
 
-		//Blatt 5, Aufgabe 1 a)
-		return new Matrix4();
+		//z
+		Vector3 z = new Vector3(lightSource.position.x/l,lightSource.position.y/l, lightSource.position.z/l);
+
+		//y
+		Vector3 x0 = new Vector3(1,0,0);
+		Vector3 temp = lightSource.position.cross(x0);
+		l = lightSource.position.cross(x0).length();
+		Vector3 y = new Vector3(temp.x/l,temp.y/l,temp.z/l);
+
+		//x
+		l = y.cross(z).length();
+		temp = y.cross(z);
+		Vector3 x = new Vector3(temp.x/l,temp.y/l,temp.z/l);
+
+		Matrix4 m = new Matrix4();
+		m.set(0,0,x.x);
+		m.set(0,1,x.y);
+		m.set(0,2,x.z);
+		m.set(1,0,y.x);
+		m.set(1,1,y.y);
+		m.set(1,2,y.z);
+		m.set(2,0,z.x);
+		m.set(2,1,z.y);
+		m.set(2,2,z.z);
+
+
+		//d
+		m.set(0,3,0);
+		m.set(1,3,0);
+		m.set(2,3, -lightSource.position.length());
+		System.out.println(m);
+
+		return  m;
 	}
 
 }
+// d = x = 0, y = 0, z = - lightsource.position.length
