@@ -53,8 +53,20 @@ public class Occlusion {
 		
 		//TODO: Blatt 5 Aufgabe 1 c)
 		//TODO: Blatt 5 Aufgabe 2
-		
-		return shadowBias;
+
+		Vector3 v = shadowProjection.project(position);
+
+		double tmp = 1;
+		for (int x = (int) v.x - 1; x < (int) v.x + 2; x++) {
+			for (int y = (int) v.y - 1; y < (int) v.y + 2; y++) {
+				if (shadowMap.get(x, y) != null) {
+					if (shadowMap.get(x, y).depth > v.z + 0.1) {
+						tmp -= 0.111;
+					}
+				}
+			}
+		}
+		return tmp;
 		
 	}
 

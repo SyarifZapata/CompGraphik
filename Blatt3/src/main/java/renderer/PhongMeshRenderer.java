@@ -103,7 +103,7 @@ public class PhongMeshRenderer extends MeshRenderer {
 
 		Vector3 n = c.triCoords.interpolate(first,second,third).normalize();
 
-		// why wont it works with eye - betrachter? 
+		// why wont it works with eye - betrachter?
 		Vector3 betrachter = p.minus(new Vector3(eye.x/eye.w,eye.y/eye.w,eye.z/eye.w)).normalize();
 
 		double scalarProduct_LN = l.dot(n);
@@ -119,16 +119,33 @@ public class PhongMeshRenderer extends MeshRenderer {
 		}
 
 
-		RGBA phong = ra.multElementWise(ia)
-				.plus(rd.multElementWise(ic).times(scalarProduct_LN))
-				.plus(rs.multElementWise(ic).times(Math.pow(scalarProduct_RV,m)));
-		//phong.clamp();
-		if(shadowSystem != null){
-			double shadowEff = shadowSystem.inShadow(p);
-			img.set(x, y, phong.times(shadowEff));
-		}else {
-			img.set(x,y,phong);
+		RGBA phong = ra.multElementWise(ia);
+
+		if(shadows){
+			double s = -1;
+			if (scalarProduct_LN > 0) {
+				s = shadowSystem.inShadow(p);
+				phong = phong.plus(material.diffuseReflectance.multElementWise(lightSource.color).times(s * scalarProduct_LN));
+			}
+			if (scalarProduct_RV > 0) {
+				if (s < 0) {
+					s = shadowSystem.inShadow(p);
+				}
+				phong = phong.plus(material.specularReflectance.multElementWise(lightSource.color).times(s * Math.pow(scalarProduct_RV, material.shininess)));
+			}
+
+		}else{
+
+			if (scalarProduct_LN > 0) {
+				phong = phong.plus(material.diffuseReflectance.multElementWise(lightSource.color).times(scalarProduct_LN)); //co.plus(lightSource.color.times(tmp1).multElementWise(material.diffuseReflectance));
+			}
+			if (scalarProduct_RV > 0) {
+				phong = phong.plus(material.specularReflectance.multElementWise(lightSource.color).times(Math.pow(scalarProduct_RV, material.shininess)));
+			}
 		}
+
+
+		img.set(x,y,phong);
 
 
 
@@ -137,6 +154,7 @@ public class PhongMeshRenderer extends MeshRenderer {
 		//TODO: Blatt 5, Aufgabe 1 c)
 
 	}
+	
 
 	public void enableShadow() {
 		shadows = true;
