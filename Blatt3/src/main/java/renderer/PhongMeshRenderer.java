@@ -123,10 +123,15 @@ public class PhongMeshRenderer extends MeshRenderer {
 				.plus(rd.multElementWise(ic).times(scalarProduct_LN))
 				.plus(rs.multElementWise(ic).times(Math.pow(scalarProduct_RV,m)));
 		//phong.clamp();
+		if(shadowSystem != null){
+			double shadowEff = shadowSystem.inShadow(p);
+			img.set(x, y, phong.times(shadowEff));
+		}else {
+			img.set(x,y,phong);
+		}
 
 
 
-		img.set(x, y, phong);
 
 
 		//TODO: Blatt 5, Aufgabe 1 c)

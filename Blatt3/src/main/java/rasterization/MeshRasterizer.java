@@ -100,10 +100,6 @@ public class MeshRasterizer implements TrianglePixelHandler{
 		//TODO: Blatt 3, Aufgabe 3b)
 
 		double d = triCoords.interpolate(currentDepths[0], currentDepths[1], currentDepths[2]);
-//		if (d < 0){
-//			zDir = ZDirection.Backward;
-//
-//		}
 
 		if (correspondenceImage.get(x,y) != null){
 			if(correspondenceImage.get(x,y).depth < d){

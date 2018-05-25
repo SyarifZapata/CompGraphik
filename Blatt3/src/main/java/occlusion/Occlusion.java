@@ -7,7 +7,9 @@ import projection.PinholeProjection;
 import projection.Projection;
 import rasterization.Correspondence;
 import rasterization.MeshRasterizer;
+import utils.BarycentricCoordinates;
 import utils.Matrix4;
+import utils.Vector2;
 import utils.Vector3;
 
 public class Occlusion {
@@ -32,7 +34,15 @@ public class Occlusion {
 		
 		//TODO: Blatt 5 Aufgabe 1 b)
 		
-		shadowMap = new Image<Correspondence>(1,1);
+		//shadowMap = new Image<Correspondence>(1,1);
+
+		Matrix4 viewMatrixLS = projection.getViewMatrixOfLightSource(lightSource);
+		shadowProjection = new PinholeProjection(width, height);
+		shadowProjection.setView(viewMatrixLS);
+
+		MeshRasterizer meh = new MeshRasterizer(width,height);
+		shadowMap = meh.rasterize(shadowProjection,meshes);
+
 	}
 	
 	
@@ -44,7 +54,7 @@ public class Occlusion {
 		//TODO: Blatt 5 Aufgabe 1 c)
 		//TODO: Blatt 5 Aufgabe 2
 		
-		return 1.0;
+		return shadowBias;
 		
 	}
 
