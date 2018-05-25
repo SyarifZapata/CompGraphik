@@ -137,7 +137,7 @@ public class PhongMeshRenderer extends MeshRenderer {
 		}else{
 
 			if (scalarProduct_LN > 0) {
-				phong = phong.plus(material.diffuseReflectance.multElementWise(lightSource.color).times(scalarProduct_LN)); //co.plus(lightSource.color.times(tmp1).multElementWise(material.diffuseReflectance));
+				phong = phong.plus(material.diffuseReflectance.multElementWise(lightSource.color).times(scalarProduct_LN));
 			}
 			if (scalarProduct_RV > 0) {
 				phong = phong.plus(material.specularReflectance.multElementWise(lightSource.color).times(Math.pow(scalarProduct_RV, material.shininess)));

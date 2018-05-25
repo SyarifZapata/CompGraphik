@@ -115,8 +115,8 @@ public class PinholeProjection extends Projection {
 		//d
 		m.set(0,3,0);
 		m.set(1,3,0);
-		m.set(2,3, -lightSource.position.length());
-		System.out.println(m);
+		m.set(2,3, -lightSource.position.length()); //negative z Richtung
+		//System.out.println(m);
 
 		return  m;
 	}
