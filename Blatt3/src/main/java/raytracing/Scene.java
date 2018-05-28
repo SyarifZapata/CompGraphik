@@ -30,6 +30,15 @@ public class Scene {
      */
     public Optional<RayCastResult> rayCastScene(Ray ray, double eps) {
         //TODO: Blatt 6, Aufgabe 1
+        //abHier Syarif
+        for (SceneObject sceneObject:objects){
+            Optional optional = sceneObject.intersect(ray,eps);
+            if(optional.isPresent()){
+                RayCastResult rayCastResult = new RayCastResult(sceneObject,(Intersection)optional.get());
+                return Optional.of(rayCastResult);
+            }
+
+        }
 
         return Optional.empty();
     }

@@ -64,6 +64,12 @@ public class RayTracer implements TurnableRenderer {
         Image<RGBA> framebuffer = new Image<RGBA>(width, height);
 
         //TODO: Blatt 6: Aufgabe 2, 10
+        // ab hier von Syarif geschrieben
+        for(int x =0; x<width;x++){
+            for(int y = 0; y<height; y++){
+                framebuffer.set(x,y,followRay(x,y));
+            }
+        }
 
         return framebuffer;
     }
@@ -72,6 +78,9 @@ public class RayTracer implements TurnableRenderer {
         Matrix4 invertedProjection = projection.getMatrix().inverted();
 
         //TODO: Blatt 6, Aufgabe 2, 9
+
+        //if()
+
 
         return RGBA.grey;
     }
@@ -82,6 +91,7 @@ public class RayTracer implements TurnableRenderer {
 
     private RGBA followRay(int depth, Ray ray, double eps) {
         //TODO: Blatt 6: Aufgabe 2, 3, 4, 5, 6, 7, 8
+
 
         return RGBA.grey;
     }

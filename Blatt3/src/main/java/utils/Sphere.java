@@ -19,7 +19,7 @@ public class Sphere implements Intersectable {
 
     public Optional<Intersection> intersect(Ray ray, double near) {
         //TODO: Blatt 6: Aufgabe 1
-        
+
 
         double a = 1;
         double b = 2 * ray.direction.dot(ray.origin.minus(center));
