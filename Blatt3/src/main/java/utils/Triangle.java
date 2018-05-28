@@ -18,6 +18,10 @@ public class Triangle implements Intersectable {
         this.c = c;
 
         //TODO: Blatt 6, Aufgabe 1
+
+        normal = (b.minus(a)).cross(c.minus(a));
+        normal.normalize();
+        //d = -n.dot(a);
     }
 
     /**
@@ -28,12 +32,36 @@ public class Triangle implements Intersectable {
     public BarycentricCoordinates barycentricCoords(Vector3 p) {
         //TODO: Blatt 6: Aufgabe 1
 
-        return new BarycentricCoordinates(0.0, 0.0, 1.0);
+        Vector3 n = (b.minus(a)).cross(c.minus(a));
+        Vector3 na = (c.minus(b)).cross(p.minus(b));
+        Vector3 nb = (a.minus(c)).cross(p.minus(c));
+        Vector3 nc = (b.minus(a)).cross(p.minus(a));
+
+        double n2 = n.length()*n.length();
+        double u = n.dot(na)/n2;
+        double v = n.dot(nb)/n2;
+        double w = n.dot(nc)/n2;
+
+        return new BarycentricCoordinates(u, v, w);
     }
 
 
     public Optional<Intersection> intersect(Ray ray, double near) {
         //TODO: Blatt 6: Aufgabe 1
+
+        double t = -(ray.origin.dot(normal) + (-normal.dot(a))) / (ray.direction.dot(normal));
+
+        if (t < near) return Optional.empty();
+
+        Vector3 p = ray.origin.plus(ray.direction.times(t));
+
+        BarycentricCoordinates barycentric = barycentricCoords(p);
+
+        if (barycentric.x >= 0 && barycentric.x <= 1 &&
+                barycentric.y >= 0 && barycentric.y <= 1 &&
+                barycentric.z >= 0 && barycentric.z <= 1) {
+           return Optional.of(new Intersection(t,normal));
+        }
 
         return Optional.empty();
     }
