@@ -75,18 +75,19 @@ public class RayTracer implements TurnableRenderer {
     }
 
     private RGBA followRay(double x, double y) {
+
         Matrix4 invertedProjection = projection.getMatrix().inverted();
         Vector4 zeroPoint = new Vector4(0,0,0,1);
         Vector4 origin4 = invertedProjection.multiply(zeroPoint);
         Vector3 origin = new Vector3(origin4.x,origin4.y,origin4.z);
 
-        Vector4 dirRaw = new Vector4(x,y,1,0);
+        Vector4 dirRaw = new Vector4(x,y,1,1);
         Vector4 directHomo = invertedProjection.multiply(dirRaw);
-        Vector3 direction = new Vector3(-directHomo.x,-directHomo.y,-directHomo.z);
+        Vector3 direction = new Vector3(directHomo.x,directHomo.y,directHomo.z);
         //TODO: Blatt 6, Aufgabe 2, 9
 
 
-        Ray ray = new Ray(origin,direction);
+        Ray ray = new Ray(origin,direction.minus(origin).times(-1));
 
         return followRay(rayTraceDepth,ray);
 
@@ -102,25 +103,23 @@ public class RayTracer implements TurnableRenderer {
         Optional<RayCastResult> hit = scene.rayCastScene(ray,eps);
 
         if(hit.isPresent()) {
-           RGBA farbe = hit.get().object.material.getColor();
-           return farbe;
 
+            //Farbe Strahl (Pixel) = c · max{−⟨n, l⟩, 0} + a)
+            RGBA c = hit.get().object.getMaterial().getColor();
+            Vector3 normal = hit.get().intersection.normal;
+            Vector3 l;
 
-//            //Farbe Strahl (Pixel) = c · max{−⟨n, l⟩, 0} + a)
-//            RGBA c = hit.get().object.getMaterial().getColor();
-//            Vector3 normal = hit.get().intersection.normal;
-//            Vector3 l;
-//
-//            if (lightSource.isPresent()) {
-//                l = lightSource.get().direction;
-//                double a = ambientLight;
-//
-//                RGBA farbe= c.times(Math.max(-1 * (normal.dot(l)), 0) + a);
-//                return farbe;
-//            }else {
-//
-//                return c.plus(c.times(ambientLight));
-//            }
+            if (lightSource.isPresent()) {
+                l = lightSource.get().direction;
+                double a = ambientLight;
+
+                RGBA farbe= c.times(Math.max(-1 * (normal.dot(l)), 0) + a);
+                return farbe;
+            }else {
+
+                return c.plus(c.times(ambientLight)).times(1);
+                //return c.times(1);
+            }
 
         }else {
             return RGBA.grey;

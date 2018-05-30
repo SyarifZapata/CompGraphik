@@ -31,20 +31,21 @@ public class Scene {
     public Optional<RayCastResult> rayCastScene(Ray ray, double eps) {
         //TODO: Blatt 6, Aufgabe 1
 
-        Intersection intersection = null;
-        SceneObject object = null;
+        Intersection intersection = null; // this value will be updated in each iteration
+        SceneObject object = null; // this value will be updated in each iteration.
 
         for (SceneObject sceneObject : objects) {
-            Optional<Intersection> current = sceneObject.intersect(ray, eps);
+            Optional<Intersection> currenHit = sceneObject.intersect(ray, eps); // check if the ray hit the object.
 
-            if (current.isPresent()) {
+            if (currenHit.isPresent()) {        // if it hits the object.
                 if (intersection != null) {
-                    if (intersection.t > current.get().t) {
-                        intersection = current.get();
+                    if ( currenHit.get().t < intersection.t) {
+                        intersection = currenHit.get();
                         object = sceneObject;
+                        // hier we update the intersection with the smaller value of "t".
                     }
                 } else {
-                    intersection = current.get();
+                    intersection = currenHit.get();
                     object = sceneObject;
                 }
 

@@ -19,9 +19,9 @@ public class Triangle implements Intersectable {
 
         //TODO: Blatt 6, Aufgabe 1
 
-        normal = (b.minus(a)).cross(c.minus(a));
+        normal = (b.minus(a)).cross(c.minus(a)); // get normal using the cross product..
         normal.normalize();
-        //d = -n.dot(a);
+
     }
 
     /**
@@ -31,8 +31,9 @@ public class Triangle implements Intersectable {
      */
     public BarycentricCoordinates barycentricCoords(Vector3 p) {
         //TODO: Blatt 6: Aufgabe 1
+        // Paul fragen warum is richtig hier..
 
-        Vector3 n = (b.minus(a)).cross(c.minus(a));
+        Vector3 n = (b.minus(a)).cross(c.minus(a)); // normal
         Vector3 na = (c.minus(b)).cross(p.minus(b));
         Vector3 nb = (a.minus(c)).cross(p.minus(c));
         Vector3 nc = (b.minus(a)).cross(p.minus(a));
@@ -48,18 +49,25 @@ public class Triangle implements Intersectable {
 
     public Optional<Intersection> intersect(Ray ray, double near) {
         //TODO: Blatt 6: Aufgabe 1
+        double d = -normal.dot(c); // we calculate d using a/b/c, because p is not calculated yet.
+        // result is the same. 
+        System.out.println("d: "+d);
+        double t = -(ray.origin.dot(normal) + d) / (ray.direction.dot(normal));
 
-        double t = -(ray.origin.dot(normal) + (-normal.dot(a))) / (ray.direction.dot(normal));
-
-        if (t < near) return Optional.of(new Intersection(0,normal));
+        if (t < near) return Optional.empty(); // if it smaller than near plane, ignore.
 
         Vector3 p = ray.origin.plus(ray.direction.times(t));
+//        double dd = -normal.dot(p);
+//        System.out.println("dd " + dd);
 
         BarycentricCoordinates barycentric = barycentricCoords(p);
 
-        if (barycentric.x >= 0 && barycentric.x <= 1 &&
-                barycentric.y >= 0 && barycentric.y <= 1 &&
-                barycentric.z >= 0 && barycentric.z <= 1) {
+        if(normal.dot(ray.direction) > 0){ // if normal goes in the same direction as ray direction. but why?
+            normal = normal.times(-1);
+        }
+
+        if (barycentric.isInside()) {
+
            return Optional.of(new Intersection(t,normal));
         }
 

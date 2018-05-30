@@ -14,6 +14,7 @@ public class Intersection {
 
     public Intersection(double t, Vector3 normal) {
         this.t = t;
-        this.normal = normal;
+        this.normal = normal.normalize(); // normalisieren, important
+
     }
 }
