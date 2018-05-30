@@ -129,18 +129,24 @@ public class RayTracer implements TurnableRenderer {
                 //Farbe(Strahl (Pixel) ) = v · c · I l + r · I r
                 //I l = max{−⟨n, l⟩, 0} + a //(Lambert-Term)
                 //I r = Farbe Strahl (Reflexion)  //(Reflexionsterm)
-                
+
                 RGBA r = hit.get().object.getMaterial().getReflectance();
                 farbe = farbe.plus(temp.multElementWise(r));
                 farbe.clamp();
             }
+
 
             farbe.clamp();
             return farbe;
 
 
         }else {
-            return RGBA.grey;
+            RGBA farbe = RGBA.grey; // initialize farbe with standard color;
+            if(environmentMap.isPresent()){     // we check if there is environtmentMap member available;
+               farbe = environmentMap.get().access(ray.direction); // get the color of the background for each ray.
+            }
+
+            return farbe;
         }
 
 
