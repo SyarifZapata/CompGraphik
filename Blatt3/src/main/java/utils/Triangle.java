@@ -51,7 +51,7 @@ public class Triangle implements Intersectable {
 
         double t = -(ray.origin.dot(normal) + (-normal.dot(a))) / (ray.direction.dot(normal));
 
-        if (t < near) return Optional.empty();
+        if (t < near) return Optional.of(new Intersection(0,normal));
 
         Vector3 p = ray.origin.plus(ray.direction.times(t));
 

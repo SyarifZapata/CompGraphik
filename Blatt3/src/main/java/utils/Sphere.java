@@ -21,27 +21,27 @@ public class Sphere implements Intersectable {
         //TODO: Blatt 6: Aufgabe 1
 
 
-        double a = 1;
-        double b = 2 * ray.direction.dot(ray.origin.minus(center));
-        double c = (ray.origin.minus(center)).length() * (ray.origin.minus(center)).length() - radius2;
-        double dis = b*b - 4*a*c;
+        Vector3 l = center.minus(ray.origin);
+        double tca = l.dot(ray.direction);
 
-        if(dis < 0){
-            return Optional.empty();
-        }
+        if (tca<0) return Optional.empty();
 
-        double t1 = (-b + sqrt(dis))/(2*a);
-        double t2 = (-b - sqrt(dis))/(2*a);
-        double t = min(t1,t2);
+        double d2 = l.dot(l) - tca*tca;
 
-        if (t < 0){
-            return Optional.empty();
-        }
+        if (d2 > radius2) return Optional.empty();
+
+        double thc = sqrt(radius2 - d2);
+        double t = tca - thc;
 
         Vector3 p = ray.origin.plus(ray.direction.times(t));
 
         Vector3 n = (p.minus(center));
         n.normalize();
+
+        if (t < 0){
+            return Optional.of(new Intersection(0,n));
+        }
+
 
         return Optional.of(new Intersection(t,n));
 

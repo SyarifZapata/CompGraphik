@@ -13,7 +13,7 @@ public class Scene {
     private final List<SceneObject> objects = new ArrayList<SceneObject>();
 
     public Scene(SceneObject... sceneObjects) {
-        for (SceneObject object: sceneObjects)
+        for (SceneObject object : sceneObjects)
             addObject(object);
     }
 
@@ -30,14 +30,29 @@ public class Scene {
      */
     public Optional<RayCastResult> rayCastScene(Ray ray, double eps) {
         //TODO: Blatt 6, Aufgabe 1
-        //abHier Syarif
-        for (SceneObject sceneObject:objects){
-            Optional optional = sceneObject.intersect(ray,eps);
-            if(optional.isPresent()){
-                RayCastResult rayCastResult = new RayCastResult(sceneObject,(Intersection)optional.get());
-                return Optional.of(rayCastResult);
-            }
 
+        Intersection intersection = null;
+        SceneObject object = null;
+
+        for (SceneObject sceneObject : objects) {
+            Optional<Intersection> current = sceneObject.intersect(ray, eps);
+
+            if (current.isPresent()) {
+                if (intersection != null) {
+                    if (intersection.t > current.get().t) {
+                        intersection = current.get();
+                        object = sceneObject;
+                    }
+                } else {
+                    intersection = current.get();
+                    object = sceneObject;
+                }
+
+            }
+        }
+
+        if (intersection != null) {
+            return Optional.of(new RayCastResult(object, intersection));
         }
 
         return Optional.empty();
@@ -46,7 +61,7 @@ public class Scene {
     /**
      * Similar to rayCastScene, but without guarantees regarding the distance of an intersection.
      * I.e. this method might return the first valid intersection instead of the one closest to the ray's origin.
-     *
+     * <p>
      * Use this method for shadowing.
      */
     public Optional<RayCastResult> rayCastSceneAny(Ray ray, double eps) {

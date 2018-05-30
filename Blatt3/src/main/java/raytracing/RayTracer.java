@@ -76,13 +76,20 @@ public class RayTracer implements TurnableRenderer {
 
     private RGBA followRay(double x, double y) {
         Matrix4 invertedProjection = projection.getMatrix().inverted();
+        Vector4 zeroPoint = new Vector4(0,0,0,1);
+        Vector4 origin4 = invertedProjection.multiply(zeroPoint);
+        Vector3 origin = new Vector3(origin4.x,origin4.y,origin4.z);
 
+        Vector4 dirRaw = new Vector4(x,y,1,0);
+        Vector4 directHomo = invertedProjection.multiply(dirRaw);
+        Vector3 direction = new Vector3(-directHomo.x,-directHomo.y,-directHomo.z);
         //TODO: Blatt 6, Aufgabe 2, 9
 
-        //if()
 
+        Ray ray = new Ray(origin,direction);
 
-        return RGBA.grey;
+        return followRay(rayTraceDepth,ray);
+
     }
 
     private RGBA followRay(int depth, Ray ray) {
@@ -92,8 +99,34 @@ public class RayTracer implements TurnableRenderer {
     private RGBA followRay(int depth, Ray ray, double eps) {
         //TODO: Blatt 6: Aufgabe 2, 3, 4, 5, 6, 7, 8
 
+        Optional<RayCastResult> hit = scene.rayCastScene(ray,eps);
 
-        return RGBA.grey;
+        if(hit.isPresent()) {
+           RGBA farbe = hit.get().object.material.getColor();
+           return farbe;
+
+
+//            //Farbe Strahl (Pixel) = c · max{−⟨n, l⟩, 0} + a)
+//            RGBA c = hit.get().object.getMaterial().getColor();
+//            Vector3 normal = hit.get().intersection.normal;
+//            Vector3 l;
+//
+//            if (lightSource.isPresent()) {
+//                l = lightSource.get().direction;
+//                double a = ambientLight;
+//
+//                RGBA farbe= c.times(Math.max(-1 * (normal.dot(l)), 0) + a);
+//                return farbe;
+//            }else {
+//
+//                return c.plus(c.times(ambientLight));
+//            }
+
+        }else {
+            return RGBA.grey;
+        }
+
+
     }
 
 
