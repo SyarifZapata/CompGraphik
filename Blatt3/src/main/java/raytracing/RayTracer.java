@@ -105,21 +105,39 @@ public class RayTracer implements TurnableRenderer {
         if(hit.isPresent()) {
 
             //Farbe Strahl (Pixel) = c · max{−⟨n, l⟩, 0} + a)
-            RGBA c = hit.get().object.getMaterial().getColor();
+            RGBA color = hit.get().object.getMaterial().getColor();
+            RGBA farbe = color.plus(color.times(ambientLight)).times(1);
             Vector3 normal = hit.get().intersection.normal;
             Vector3 l;
 
             if (lightSource.isPresent()) {
                 l = lightSource.get().direction;
-                double a = ambientLight;
-
-                RGBA farbe= c.times(Math.max(-1 * (normal.dot(l)), 0) + a);
-                return farbe;
-            }else {
-
-                return c.plus(c.times(ambientLight)).times(1);
-                //return c.times(1);
+                farbe= color.times(Math.max(-1 * (normal.dot(l)), 0) + ambientLight);
             }
+
+            if(rayTracingEnabled){
+                Vector3 hitPoint = ray.pointAt(hit.get().intersection.t);
+                Vector3 hitPointNormal = hit.get().intersection.normal;
+                // R+V = 2<VN>N
+                // R = V-2<VN>N
+                Vector3 reflectVector = ray.direction
+                        .minus(hitPointNormal.times(ray.direction.dot(hitPointNormal)*2));
+                // ray is allways Ray(origin,direction);
+                Ray reflectRay = new Ray(hitPoint,reflectVector);
+                RGBA temp = followRay(depth-1, reflectRay,eps);
+
+                //Farbe(Strahl (Pixel) ) = v · c · I l + r · I r
+                //I l = max{−⟨n, l⟩, 0} + a //(Lambert-Term)
+                //I r = Farbe Strahl (Reflexion)  //(Reflexionsterm)
+                
+                RGBA r = hit.get().object.getMaterial().getReflectance();
+                farbe = farbe.plus(temp.multElementWise(r));
+                farbe.clamp();
+            }
+
+            farbe.clamp();
+            return farbe;
+
 
         }else {
             return RGBA.grey;

@@ -50,8 +50,8 @@ public class Triangle implements Intersectable {
     public Optional<Intersection> intersect(Ray ray, double near) {
         //TODO: Blatt 6: Aufgabe 1
         double d = -normal.dot(c); // we calculate d using a/b/c, because p is not calculated yet.
-        // result is the same. 
-        System.out.println("d: "+d);
+        // result is the same.
+        //System.out.println("d: "+d);
         double t = -(ray.origin.dot(normal) + d) / (ray.direction.dot(normal));
 
         if (t < near) return Optional.empty(); // if it smaller than near plane, ignore.
