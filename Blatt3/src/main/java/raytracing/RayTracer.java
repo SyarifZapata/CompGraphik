@@ -113,6 +113,10 @@ public class RayTracer implements TurnableRenderer {
             if (lightSource.isPresent()) {
                 l = lightSource.get().direction;
                 farbe= color.times(Math.max(-1 * (normal.dot(l)), 0) + ambientLight);
+                if(shadowsEnabled){
+                    
+                }
+
             }
 
             if(rayTracingEnabled){
