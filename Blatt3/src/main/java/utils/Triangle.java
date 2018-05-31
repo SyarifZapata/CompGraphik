@@ -50,6 +50,7 @@ public class Triangle implements Intersectable {
     public Optional<Intersection> intersect(Ray ray, double near) {
         //TODO: Blatt 6: Aufgabe 1
         double d = -normal.dot(c); // we calculate d using a/b/c, because p is not calculated yet.
+        // the triangle is small so
         // result is the same.
         //System.out.println("d: "+d);
         double t = -(ray.origin.dot(normal) + d) / (ray.direction.dot(normal));

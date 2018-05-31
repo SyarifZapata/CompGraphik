@@ -118,14 +118,18 @@ public class RayTracer implements TurnableRenderer {
 
                     Vector3 hitPoint = ray.pointAt(hit.get().intersection.t);
                     Ray fromPoint = new Ray(hitPoint,l.neg()); // man muss den wert flippen damit es in die richtung
-                    // light source geht. 
+                    // light source geht.
                     Optional<RayCastResult> inShadow = scene.rayCastScene(fromPoint,eps);
                     if(inShadow.isPresent()){
                         if(inShadow.get().object != hit.get().object){ // check ob es nicht das gleiche object ist.
                             farbe = farbe.times(0.24); // leider must man hier manuell eingeben.
                         }
-
                     }
+                }
+
+                if(softShadowsEnabled){
+                    Vector3 randomRaysDir = RandomHelper.sampleStandardNormal3D();
+
                 }
 
             }
