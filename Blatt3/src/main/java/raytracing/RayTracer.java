@@ -112,23 +112,42 @@ public class RayTracer implements TurnableRenderer {
 
             if (lightSource.isPresent()) {
                 l = lightSource.get().direction;
+
                 farbe= color.times(Math.max(-1 * (normal.dot(l)), 0) + ambientLight);
 
-                if(shadowsEnabled){
+                double t = hit.get().intersection.t;
+                Vector3 hitPoint= ray.pointAt(t);
 
-                    Vector3 hitPoint = ray.pointAt(hit.get().intersection.t);
-                    Ray fromPoint = new Ray(hitPoint,l.neg()); // man muss den wert flippen damit es in die richtung
-                    // light source geht.
-                    Optional<RayCastResult> inShadow = scene.rayCastScene(fromPoint,eps);
-                    if(inShadow.isPresent()){
-                        if(inShadow.get().object != hit.get().object){ // check ob es nicht das gleiche object ist.
-                            farbe = farbe.times(0.24); // leider must man hier manuell eingeben.
+                if(shadowsEnabled){
+                    Ray fromPoint;
+                    Optional<RayCastResult> inShadow = Optional.empty();
+                    int counter=0;
+                    if(softShadowsEnabled){
+                        for(int i = 0; i<softShadowSamples ; i++){
+                            fromPoint = new Ray(hitPoint,l.neg().plus(RandomHelper.sampleStandardNormal3D().times(shadowSoftness)));
+                            inShadow = scene.rayCastScene(fromPoint,eps);
+
+                            if(!inShadow.isPresent()){
+                                counter++;      // 1.0 if total beleuchtet, 0.0 if total dunkle.
+                            }
+                        }
+                        if(inShadow.isPresent()){
+                            if(inShadow.get().object != hit.get().object){
+                                farbe = farbe.times(((double)counter/softShadowSamples)+0.24);
+                            }
+                        }
+
+
+                    }else {
+                        fromPoint = new Ray(hitPoint,l.neg()); // man muss den wert flippen damit es in die richtung
+                        inShadow = scene.rayCastScene(fromPoint,eps);
+                        if(inShadow.isPresent()){
+                            if(inShadow.get().object != hit.get().object){ // check ob es nicht das gleiche object ist.
+                                farbe = farbe.times(0.24); // leider must man hier manuell eingeben.
+                            }
                         }
                     }
-                }
 
-                if(softShadowsEnabled){
-                    Vector3 randomRaysDir = RandomHelper.sampleStandardNormal3D();
 
                 }
 
