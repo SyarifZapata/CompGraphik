@@ -11,6 +11,8 @@ import utils.*;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
+import static java.lang.Math.abs;
+
 public class RayTracer implements TurnableRenderer {
 
     private final int width;
@@ -71,6 +73,33 @@ public class RayTracer implements TurnableRenderer {
             }
         }
 
+        for(int y =0; y<height;y++){
+            for(int x = 0; x<width-1; x++){
+                RGBA pixel1 = framebuffer.get(x,y);
+                RGBA pixel2 = framebuffer.get(x,y+1);
+                double r = abs(pixel1.r - pixel2.r);
+                double g = abs(pixel1.g - pixel2.g);
+                double b = abs(pixel1.b - pixel2.b);
+                double sum = r+g+b;
+
+                RGBA schnitt = new RGBA(0,0,0);
+
+                if(sum>adaptiveSupersamplingThreshold){
+
+                    int n = adaptiveSupersamplingSamples;
+
+//                    for(int i = n/-2; i<n/2;i++){
+//                        for(int j = n/-2; j<n/2; j++){
+//                            schnitt = schnitt.plus(followRay(x+i,y+j)).times(1.0/(n*n));
+//                        }
+//                    }
+
+                    schnitt = pixel1.plus(pixel2).times(0.5);
+                    framebuffer.set(x,y,schnitt);
+                }
+            }
+        }
+
         return framebuffer;
     }
 
@@ -122,6 +151,7 @@ public class RayTracer implements TurnableRenderer {
                     Ray fromPoint;
                     Optional<RayCastResult> inShadow = Optional.empty();
                     int counter=0;
+
                     if(softShadowsEnabled){
                         for(int i = 0; i<softShadowSamples ; i++){
                             fromPoint = new Ray(hitPoint,l.neg().plus(RandomHelper.sampleStandardNormal3D().times(shadowSoftness)));
@@ -172,6 +202,9 @@ public class RayTracer implements TurnableRenderer {
                 farbe = farbe.plus(temp.multElementWise(r));
                 farbe.clamp();
             }
+
+
+            // Aufgabe 10
 
 
             farbe.clamp();

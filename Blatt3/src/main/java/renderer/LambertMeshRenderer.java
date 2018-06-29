@@ -67,11 +67,11 @@ public class LambertMeshRenderer extends MeshRenderer{
 		double scalarProd = l.dot(n);
 
 
-		if(scalarProd>0){
-			RGBA lambert = light.times(scalarProd* MATERIAL_ALBEDO);
-			lambert.clamp();
-			img.set(x,y,lambert);
-		}
+		scalarProd = (scalarProd<0)? 0:scalarProd;
+		RGBA lambert = light.times(scalarProd* MATERIAL_ALBEDO);
+		lambert.clamp();
+		img.set(x,y,lambert);
+
 
 	}
 	
