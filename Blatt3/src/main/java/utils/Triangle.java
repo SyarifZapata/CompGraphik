@@ -20,7 +20,6 @@ public class Triangle implements Intersectable {
         //TODO: Blatt 6, Aufgabe 1
 
         normal = (b.minus(a)).cross(c.minus(a)); // get normal using the cross product..
-        normal.normalize();
 
     }
 
@@ -63,7 +62,8 @@ public class Triangle implements Intersectable {
 
         BarycentricCoordinates barycentric = barycentricCoords(p);
 
-        if(normal.dot(ray.direction) > 0){ // if normal goes in the same direction as ray direction. but why?
+        if(normal.dot(ray.direction) > 0){ // if normal goes in the same direction as ray direction. change the sign
+            // we need the right value.
             normal = normal.times(-1);
         }
 

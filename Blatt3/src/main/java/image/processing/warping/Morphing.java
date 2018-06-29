@@ -34,8 +34,8 @@ public class Morphing {
 				RGBA res = newImgA.get(x,y);
 				RGBA res2 = newImgB.get(x,y);
 
-				res2 = res2.times(lambda);
-				res = res.times(1-lambda);
+				res2 = res2.times(1-lambda);
+				res = res.times(lambda);
 
 				RGBA bravo = res.plus(res2);
 

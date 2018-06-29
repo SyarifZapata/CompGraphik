@@ -26,13 +26,13 @@ public class Ex1{
 
 		//Blatt 1, Aufgabe 4
 		lineRasterExample();
-
-		//Blatt 1, Aufgabe 6 Beispiele
-		triangleRasterExample();
-		generatePlasteredImage();
-
-		//Blatt 1, Aufgabe 7 Beispiele
-		drawInterpolatedTriangles();
+//
+//		//Blatt 1, Aufgabe 6 Beispiele
+//		triangleRasterExample();
+//		generatePlasteredImage();
+//
+//		//Blatt 1, Aufgabe 7 Beispiele
+//		drawInterpolatedTriangles();
 	}
 
 	private void createAndSaveImage(){
@@ -46,8 +46,6 @@ public class Ex1{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		//System.out.println(zeichnen.get(20,30));
 
 		Image<RGBA> out = flipImageUpsideDown(zeichnen);
 		try {

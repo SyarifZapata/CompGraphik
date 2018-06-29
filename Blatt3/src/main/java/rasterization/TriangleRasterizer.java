@@ -27,8 +27,17 @@ public class TriangleRasterizer {
 
 		//TODO: Blatt 1, Aufgabe 6
 
-		for(int x=0;x<w;x++){
-			for(int y=0;y<h;y++){
+
+		//xmin x max, y finden für box
+		double xmax,xmin,ymax,ymin;
+		xmax = Math.min(w,Math.max(va.x,Math.max(vb.x,vc.x)));
+		xmin = Math.max(0,Math.min(va.x,Math.min(vb.x,vc.x)));
+		ymax = Math.min(h,Math.max(va.y,Math.max(vb.y,vc.y)));
+		ymin = Math.max(0,Math.min(va.y,Math.min(vb.y,vc.y)));
+
+
+		for(int x=(int)xmin;x<(int)xmax+1;x++){
+			for(int y=(int)ymin;y<(int)ymax+1;y++){
 				BarycentricCoordinates bcC = bct.getBarycentricCoordinates(x,y);
 				if(bcC.isInside() && x<w && y<h){
 					handler.handleTrianglePixel(x,y,bcC);

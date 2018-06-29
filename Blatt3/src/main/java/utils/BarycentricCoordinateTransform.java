@@ -9,7 +9,7 @@ public class BarycentricCoordinateTransform {
 		this.b = b;
 		this.c = c;
 
-		det = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
+		det = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y); // calculate the surface of the triangle. using determinate
 	}
 
 
